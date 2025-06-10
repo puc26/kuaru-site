@@ -3,11 +3,11 @@ import { Image } from "astro:assets";
 import Button from "../shared/Button.astro";
 import Container from "../shared/Container.astro";
 import Paragraph from "../shared/Paragraph.astro";
-import ByNumber from "./ByNumber.astro";
 
 import myHeroImage1 from "../../assets/images/hero1.jpg";
 import myHeroImage2 from "../../assets/images/hero2.jpg";
 import myHeroImage3 from "../../assets/images/hero3.jpg";
+import kuaruLogo from "../../assets/logos/kuaru-logo.png";
 import CtaButton from "../shared/CtaButton.astro";
 import ByResult from "./ByResult.astro";
 import GradiantText from "../shared/GradiantText.astro";
@@ -19,52 +19,108 @@ export interface Props {
 const { className } = Astro.props;
 ---
 
-<section class=`relative pt-32 lg:pt-36 ${className}`>
-  <Container className={"flex flex-col lg:flex-row gap-10 lg:gap-12"}>
+<section id="hero-section" class=`relative min-h-[200vh] pt-32 lg:pt-36 bg-[#4c5c68] ${className} pb-0`>
+  <Container className={"flex flex-col items-center justify-center min-h-screen"}>
     <div
-      class="relative flex flex-col items-center text-center lg:text-left lg:py-7 xl:py-8
-        lg:items-start lg:max-w-none max-w-3xl mx-auto lg:mx-0 lg:flex-1 lg:w-1/2"
+      class="relative flex flex-col items-center text-center w-full transition-transform duration-300 -mt-[25vh]"
+      id="hero-content"
     >
-      <h1
-        class="text-3xl/tight sm:text-4xl/tight md:text-5xl/tight xl:text-6xl/tight
-             font-bold text-heading-1"
-      >
-        Ignite Your
-        <GradiantText>Social <br /> Presence</GradiantText>
-        with Us!
-      </h1>
-      <Paragraph className="mt-8 ">
-        Your journey to social media success begins here. Elevate your brand,
-        engage your audience, and boost your business with our tailored social
-        media marketing solutions.
-      </Paragraph>
-
-      <div class="mt-16 w-full flex flex-col">
-        <div class="lg:mx-auto mb-5">
-          <CtaButton />
+      <div class="w-full max-w-[70%] sm:max-w-[60%] md:max-w-[50%] lg:max-w-[40%] xl:max-w-[40%] transition-transform duration-300">
+        <Image
+          src={kuaruLogo}
+          alt="KUARU STUDIO Logo"
+          class="w-full h-auto"
+          id="hero-logo"
+        />
         </div>
-        <div class="mx-auto">
-          <ByResult />
-        </div>
+      <div class="mt-4 text-[#f4f4f4] font-work-sans font-bold" id="hero-text-logo">
+         KUARU STUDIOS
       </div>
-    </div>
-
-    <div
-      class="flex flex-1 lg:w-1/2 lg:h-auto relative lg:max-w-none lg:mx-0 mx-auto max-w-3xl"
-    >
-      <Image
-        src={myHeroImage3}
-        alt="Hero image"
-        class="my-class"
-        width="2350"
-        height="2359"
-        class="lg:absolute lg:w-full lg:h-full rounded-3xl object-cover lg:max-h-none max-h-96"
-      />
-
-      <!-- https://unsplash.com/photos/man-in-gray-hoodie-sitting-on-brown-wooden-chair-on-green-grass-field-during-daytime-3faX71BaNe0?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash -->
+      <Paragraph className="mt-[4vh] text-[2.5vw] font-light font-[var(--font-sans)] text-[#f4f4f4] tracking-[0.5em] transition-transform duration-300">
+        &nbsp;Rooted in Quality. Elegance in Simplicity.
+      </Paragraph>
     </div>
   </Container>
-
-  <ByNumber />
-  <!-- <ByResult /> -->
 </section>
+
+<script>
+  const heroSection = document.getElementById('hero-section');
+  const heroContent = document.getElementById('hero-content');
+  const aboutSection = document.getElementById('about-section');
+  
+  function updateBackgroundColor() {
+    const scrollPosition = window.scrollY;
+    const heroHeight = heroSection.offsetHeight;
+    const logoElement = heroSection.querySelector('img');
+    const logoHeight = logoElement ? logoElement.offsetHeight : 0;
+    const logoTop = logoElement ? logoElement.getBoundingClientRect().top + window.scrollY : 0;
+    const logoMidPoint = logoTop + (logoHeight / 2);
+    
+    // 获取 About Us 区块的位置
+    const aboutSectionTop = aboutSection ? aboutSection.getBoundingClientRect().top + window.scrollY : heroHeight;
+    const windowHeight = window.innerHeight;
+    const aboutSectionTrigger = aboutSectionTop - windowHeight; // 视窗底部到达 About Us 的位置
+    
+    // 计算背景色变化的滚动进度
+    const bgScrollProgress = Math.max(0, Math.min((scrollPosition - logoMidPoint) / (aboutSectionTrigger - logoMidPoint), 1));
+    
+    // 计算动画的滚动进度（从 Logo 中点开始）
+    const animationEndPoint = logoMidPoint + (aboutSectionTrigger - logoMidPoint) * 0.7; // 在到达 About Us 之前结束动画
+    const animationProgress = Math.max(0, Math.min((scrollPosition - logoMidPoint) / (animationEndPoint - logoMidPoint), 1));
+    
+    // 计算颜色渐变
+    const startColor = [76, 92, 104]; // #4c5c68
+    const endColor = [250, 249, 245]; // #FAF9F5
+    
+    const currentColor = startColor.map((start, index) => {
+      const end = endColor[index];
+      return Math.round(start + (end - start) * bgScrollProgress);
+    });
+    
+    // 应用颜色到 hero section
+    heroSection.style.backgroundColor = `rgb(${currentColor.join(',')})`;
+    
+    // 同时更新文字颜色
+    const textElements = heroSection.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
+    const textColor = bgScrollProgress > 0.5 ? '#2C2C2C' : '#f4f4f4';
+    textElements.forEach(element => {
+      element.style.color = textColor;
+    });
+
+    // 添加上移消逝动画
+    if (heroContent) {
+      const translateY = -animationProgress * 300; // 最大上移 300px
+      const opacity = 1 - animationProgress; // 从 1 渐变到 0
+      heroContent.style.transform = `translateY(${translateY}px)`;
+      heroContent.style.opacity = opacity.toString();
+    }
+  }
+
+  function setHeroTextLogoSize() {
+    const heroLogo = document.getElementById('hero-logo');
+    const heroTextLogo = document.getElementById('hero-text-logo');
+    if (heroLogo && heroTextLogo) {
+      // 确保图片加载完成以获取正确高度
+      if (heroLogo.complete) {
+        const logoHeight = heroLogo.offsetHeight;
+        heroTextLogo.style.fontSize = `${logoHeight / 5}px`;
+      } else {
+        heroLogo.onload = () => {
+          const logoHeight = heroLogo.offsetHeight;
+          heroTextLogo.style.fontSize = `${logoHeight / 5}px`;
+        };
+      }
+    }
+  }
+
+  // 监听滚动事件
+  window.addEventListener('scroll', updateBackgroundColor);
+  // 监听窗口大小调整事件
+  window.addEventListener('resize', () => {
+    updateBackgroundColor();
+    setHeroTextLogoSize();
+  });
+  // 初始化颜色和字体大小
+  updateBackgroundColor();
+  setHeroTextLogoSize();
+</script>

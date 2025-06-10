@@ -1,12 +1,15 @@
 ---
 import Navbar from "./Navbar.astro";
 import Footer from "./Footer.astro";
+import PrivacyPolicy from "../components/sections/PrivacyPolicy.astro";
+import Terms from "../components/sections/Terms.astro";
 
 export interface Props {
   title: string;
+  showNavbar?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, showNavbar = true } = Astro.props;
 ---
 
 <html lang="en">
@@ -17,109 +20,349 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Agency template made with ASTROJS and TAILWINDCSS"
+      content="KUARU STUDIO - Under Construction -"
     />
-    <title>Agency template - {title}</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style/custom.css" />
   </head>
-  <body class="overflow-hidden overflow-y-auto bg-body">
-    <Navbar />
+  <body class="overflow-x-hidden overflow-y-auto bg-[#f4f4f4]">
+    {showNavbar && <Navbar />}
+    <main class="transition-opacity duration-500">
     <slot />
+    </main>
+    <PrivacyPolicy />
+    <Terms />
     <Footer />
   </body>
-  <script>
-    detectSystemTheme();
+</html>
 
-    const switchTheme = document.querySelector(
-      "[data-switch-theme]"
-    ) as HTMLButtonElement;
-    switchTheme.addEventListener("click", (e) => {
-      e.preventDefault();
-      changeThemeManually();
-    });
+<script>
+  let isPrivacyPage = false;
+  let isTermsPage = false;
 
-    function changeThemeManually() {
-      const localAppTheme = localStorage.getItem("theme");
-      // Whenever the user explicitly chooses dark mode, previously it was light mode
-      if (localAppTheme === "light") {
-        changeThemeToDark();
-      }
-      // Whenever the user explicitly chooses light mode, previously it was dark mode
-      if (localAppTheme === "dark") {
-        changeThemeToLight();
-      }
-      if (!localAppTheme) {
-        console.log("previously it was not set");
-        // Whenever the user explicitly chooses to respect the OS preference
-        detectSystemTheme(true);
-      }
-    }
+  document.addEventListener('DOMContentLoaded', () => {
+    // Handle smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      if (anchor.getAttribute('href') === '#') return;
 
-    function detectSystemTheme(manual = false) {
-      if (
-        localStorage.getItem("theme") === "dark" ||
-        (!("theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-        if (manual) localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        if (manual) localStorage.setItem("theme", "light");
-      }
-    }
-
-    function changeThemeToDark() {
-      localStorage.setItem("theme", "dark");
-      document.documentElement.classList.add("dark");
-    }
-
-    function changeThemeToLight() {
-      localStorage.setItem("theme", "light");
-      document.documentElement.classList.remove("dark");
-    }
-  </script>
-  <script>
-    const toggleMenu = document.querySelector(
-      "[data-toggle-nav]"
-    ) as HTMLButtonElement;
-    const navbar = document.querySelector("[data-navbar]") as HTMLDivElement;
-    const overlayNav = document.querySelector(
-      "[data-nav-overlay]"
-    ) as HTMLDivElement;
-    if (toggleMenu) {
-      toggleMenu.addEventListener("click", (e) => {
+      anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        if (toggleMenu.getAttribute("data-open-nav") === "false") {
-          toggleMenu.setAttribute("data-open-nav", "true");
-          overlayNav.setAttribute("data-is-visible", "true");
-          document.body.classList.add("!overflow-y-hidden");
-          navbar.style.height = `${navbar.scrollHeight}px`;
-        } else {
-          toggleMenu.setAttribute("data-open-nav", "false");
-          overlayNav.setAttribute("data-is-visible", "false");
-          document.body.classList.remove("!overflow-y-hidden");
-          navbar.style.height = "0px";
+
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          // If it's a Home or About link, switch back to main content area first
+          if ((targetId === 'hero-section' || targetId === 'about') && (isPrivacyPage || isTermsPage)) {
+            const privacySection = document.getElementById('privacy-policy');
+            const termsSection = document.getElementById('terms');
+            const mainContent = document.querySelector('main');
+            const header = document.querySelector('header');
+            const logo = document.querySelector('.logo');
+
+            if ((privacySection || termsSection) && mainContent && header) {
+              // Add fade out effect
+              if (privacySection) privacySection.style.opacity = '0';
+              if (termsSection) termsSection.style.opacity = '0';
+              setTimeout(() => {
+                if (privacySection) privacySection.style.display = 'none';
+                if (termsSection) termsSection.style.display = 'none';
+                mainContent.style.display = 'block';
+                // Add fade in effect
+                setTimeout(() => {
+                  mainContent.style.opacity = '1';
+                  // Scroll to target section after content is shown
+                  const targetSection = document.getElementById(targetId);
+                  if (targetSection) {
+                    const startPosition = window.pageYOffset;
+                    const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+                    const distance = targetPosition - startPosition;
+                    const duration = 150;
+                    let start = null;
+
+                    window.requestAnimationFrame(function step(timestamp) {
+                      if (!start) start = timestamp;
+                      const progress = timestamp - start;
+                      const percentage = Math.min(progress / duration, 1);
+
+                      window.scrollTo(0, startPosition + distance * percentage);
+
+                      if (progress < duration) {
+                        window.requestAnimationFrame(step);
+                      }
+                    });
+                  }
+                }, 50);
+              }, 500);
+
+              isPrivacyPage = false;
+              isTermsPage = false;
+              
+              // Restore header style
+              header.style.backgroundColor = '';
+              header.style.transition = '';
+              if (logo) {
+                logo.style.opacity = '';
+              }
+
+              // Trigger page state change event
+              window.dispatchEvent(new CustomEvent('pageStateChange', {
+                detail: { isPrivacyPage: false, isTermsPage: false }
+              }));
+            }
+          } else if (targetId === 'privacy-policy') {
+            // Handle switching to privacy policy page
+            const privacySection = document.getElementById('privacy-policy');
+            const termsSection = document.getElementById('terms');
+            const mainContent = document.querySelector('main');
+            const header = document.querySelector('header');
+            const logo = document.querySelector('.logo');
+
+            if (privacySection && mainContent && header) {
+              isPrivacyPage = true;
+              isTermsPage = false;
+              
+              // Add fade out effect
+              mainContent.style.opacity = '0';
+              if (termsSection) termsSection.style.opacity = '0';
+              setTimeout(() => {
+                mainContent.style.display = 'none';
+                if (termsSection) termsSection.style.display = 'none';
+                privacySection.style.display = 'block';
+                // Add fade in effect
+                setTimeout(() => {
+                  privacySection.style.opacity = '1';
+                  // Scroll to privacy policy section after content is shown
+                  const startPosition = window.pageYOffset;
+                  const targetPosition = privacySection.getBoundingClientRect().top + window.pageYOffset;
+                  const distance = targetPosition - startPosition;
+                  const duration = 150;
+                  let start = null;
+
+                  window.requestAnimationFrame(function step(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    const percentage = Math.min(progress / duration, 1);
+
+                    window.scrollTo(0, startPosition + distance * percentage);
+
+                    if (progress < duration) {
+                      window.requestAnimationFrame(step);
+                    }
+                  });
+                }, 50);
+              }, 500);
+
+              // Set header style
+              header.style.backgroundColor = '#4c5c68';
+              header.style.transition = 'background-color 0.3s ease';
+              if (logo) {
+                logo.style.opacity = '1';
+              }
+
+              // Trigger page state change event
+              window.dispatchEvent(new CustomEvent('pageStateChange', {
+                detail: { isPrivacyPage: true, isTermsPage: false }
+              }));
+            }
+          } else if (targetId === 'terms') {
+            // Handle switching to terms page
+            const privacySection = document.getElementById('privacy-policy');
+            const termsSection = document.getElementById('terms');
+            const mainContent = document.querySelector('main');
+            const header = document.querySelector('header');
+            const logo = document.querySelector('.logo');
+
+            if (termsSection && mainContent && header) {
+              isPrivacyPage = false;
+              isTermsPage = true;
+              
+              // Add fade out effect
+              mainContent.style.opacity = '0';
+              if (privacySection) privacySection.style.opacity = '0';
+              setTimeout(() => {
+                mainContent.style.display = 'none';
+                if (privacySection) privacySection.style.display = 'none';
+                termsSection.style.display = 'block';
+                // Add fade in effect
+                setTimeout(() => {
+                  termsSection.style.opacity = '1';
+                  // Scroll to terms section after content is shown
+                  const startPosition = window.pageYOffset;
+                  const targetPosition = termsSection.getBoundingClientRect().top + window.pageYOffset;
+                  const distance = targetPosition - startPosition;
+                  const duration = 150;
+                  let start = null;
+
+                  window.requestAnimationFrame(function step(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    const percentage = Math.min(progress / duration, 1);
+
+                    window.scrollTo(0, startPosition + distance * percentage);
+
+                    if (progress < duration) {
+                      window.requestAnimationFrame(step);
+                    }
+                  });
+                }, 50);
+              }, 500);
+
+              // Set header style
+              header.style.backgroundColor = '#4c5c68';
+              header.style.transition = 'background-color 0.3s ease';
+              if (logo) {
+                logo.style.opacity = '1';
+              }
+
+              // Trigger page state change event
+              window.dispatchEvent(new CustomEvent('pageStateChange', {
+                detail: { isPrivacyPage: false, isTermsPage: true }
+              }));
+            }
+          } else {
+            // If not a special link, perform normal scrolling
+            const startPosition = window.pageYOffset;
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 150;
+            let start = null;
+
+            window.requestAnimationFrame(function step(timestamp) {
+              if (!start) start = timestamp;
+              const progress = timestamp - start;
+              const percentage = Math.min(progress / duration, 1);
+
+              window.scrollTo(0, startPosition + distance * percentage);
+
+              if (progress < duration) {
+                window.requestAnimationFrame(step);
+              }
+            });
+          }
         }
       });
+    });
 
-      navbar.addEventListener("click", () => {
-        toggleMenu.setAttribute("data-open-nav", "false");
-        overlayNav.setAttribute("data-is-visible", "false");
-        document.body.classList.remove("!overflow-y-hidden");
-        navbar.style.height = "0px";
-      });
+    // Handle privacy policy display
+    const privacyLink = document.querySelector('a[href="#privacy-policy"]');
+    const privacySection = document.getElementById('privacy-policy');
+    const mainContent = document.querySelector('main');
+    const header = document.querySelector('header');
+    const logo = document.querySelector('.logo');
 
-      overlayNav.addEventListener("click", () => {
-        toggleMenu.setAttribute("data-open-nav", "false");
-        overlayNav.setAttribute("data-is-visible", "false");
-        document.body.classList.remove("!overflow-y-hidden");
-        navbar.style.height = "0px";
+    if (privacyLink && privacySection && mainContent && header) {
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        isPrivacyPage = true;
+        
+        // Add fade out effect
+        mainContent.style.opacity = '0';
+        setTimeout(() => {
+          mainContent.style.display = 'none';
+          privacySection.style.display = 'block';
+          // Add fade in effect
+          setTimeout(() => {
+            privacySection.style.opacity = '1';
+          }, 50);
+        }, 500);
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Set header style
+        header.style.backgroundColor = '#4c5c68';
+        header.style.transition = 'background-color 0.3s ease';
+        if (logo) {
+          logo.style.opacity = '1';
+        }
+
+        // Trigger privacy policy page state change event
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', {
+          detail: { isPrivacyPage: true }
+        }));
       });
     }
-  </script>
-</html>
+
+    // Handle back button
+    const backButton = document.getElementById('back-to-main');
+    if (backButton && privacySection && mainContent && header) {
+      backButton.addEventListener('click', () => {
+        isPrivacyPage = false;
+        
+        // Add fade out effect
+        privacySection.style.opacity = '0';
+        setTimeout(() => {
+          privacySection.style.display = 'none';
+          mainContent.style.display = 'block';
+          // Add fade in effect
+          setTimeout(() => {
+            mainContent.style.opacity = '1';
+          }, 50);
+        }, 500);
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Restore header style
+        header.style.backgroundColor = '';
+        header.style.transition = '';
+        if (logo) {
+          logo.style.opacity = '';
+        }
+
+        // Trigger privacy policy page state change event
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', {
+          detail: { isPrivacyPage: false }
+        }));
+      });
+    }
+
+    // Listen for scroll events
+    window.addEventListener('scroll', () => {
+      if (isPrivacyPage || isTermsPage) return; // If on privacy or terms page, don't execute scroll effect
+
+      const scrollPosition = window.scrollY;
+      const header = document.querySelector('header');
+      const logo = document.querySelector('.logo');
+
+      if (header && logo) {
+        if (scrollPosition > 50) {
+          header.style.backgroundColor = '#4c5c68';
+          logo.style.opacity = '1';
+        } else {
+          header.style.backgroundColor = '';
+          logo.style.opacity = '';
+        }
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  :root {
+    --font-sans: 'M PLUS Rounded 1c', sans-serif;
+    --font-heading: 'Zen Kaku Gothic New', sans-serif;
+    --font-noto-jp: 'Noto Sans JP', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+  }
+
+  /* Add transition effect styles */
+  #privacy-policy, #terms {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  main {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+</style>

@@ -17,6 +17,10 @@ export default {
       screens: {
         midmd: "880px",
       },
+      fontFamily: {
+        'work-sans': ['Work Sans', 'sans-serif'],
+        'noto-sans-jp': ['Noto Sans JP', 'sans-serif'],
+      },
     },
   },
   plugins: [],

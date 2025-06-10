@@ -2,6 +2,17 @@
 import Button from "./Button.astro";
 ---
 
-<Button variant={"primary"} className={"min-w-max text-white"}>
-  <span class="flex relative z-[5] text-center"> Get Started Today</span>
+<div class="flex flex-col sm:flex-row gap-4">
+  <Button
+    href="#"
+    className="bg-[#8e735b] hover:bg-[#4F4035] active:bg-[#3E3129] text-[#FFFFFF] hover:text-[#F8F6F4]"
+  >
+    Get Started
+  </Button>
+  <Button
+    href="#"
+    className="bg-[#8e735b] hover:bg-[#4F4035] active:bg-[#3E3129] text-[#FFFFFF] hover:text-[#F8F6F4]"
+  >
+    Learn More
 </Button>
+</div>

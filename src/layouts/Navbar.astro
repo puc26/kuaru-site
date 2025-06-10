@@ -2,139 +2,67 @@
 import Container from "../components/shared/Container.astro";
 import Navitem from "../components/shared/Navitem.astro";
 import BtnLink from "../components/shared/BtnLink.astro";
+import { Image } from "astro:assets";
+import kuaruLogo from "../assets/logos/kuaru-logo-2.png";
 
 const navItems = [
   {
-    href: "#",
-    text: "Home",
+    href: "#about",
+    text: "ABOUT",
   },
   {
-    href: "#solutions",
-    text: "Solutions",
+    href: "#brands",
+    text: "BRANDS",
   },
   {
-    href: "#services",
-    text: "Services",
+    href: "#philosophy",
+    text: "PHILOSOPHY",
   },
   {
-    href: "#features",
-    text: "Features",
-  },
-  {
-    href: "#faq",
-    text: "About us",
+    href: "#footer",
+    text: "CONTACT",
   },
 ];
 ---
 
-<header class="absolute inset-x-0 top-0 z-50 py-6">
+<header class="fixed inset-x-0 top-0 z-50 py-1 bg-transparent transition-colors duration-300 shadow-lg shadow-black/10" id="header">
   <Container>
-    <nav class="w-full flex justify-between gap-6 relative">
+    <nav class="w-full flex justify-between items-center gap-6 relative">
       <!-- logo -->
-      <div class="min-w-max inline-flex relative">
-        <a href="/" class="relative flex items-center gap-3">
-          <div class="relative w-7 h-7 overflow-hidden flex rounded-xl">
-            <svg
-              id="logo-15"
-              width="100%"
-              height="100%"
-              viewBox="0 0 49 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M24.5 12.75C24.5 18.9632 19.4632 24 13.25 24H2V12.75C2 6.53679 7.03679 1.5 13.25 1.5C19.4632 1.5 24.5 6.53679 24.5 12.75Z"
-                class="ccustom"
-                fill="#17CF97"></path>
-              <path
-                d="M24.5 35.25C24.5 29.0368 29.5368 24 35.75 24H47V35.25C47 41.4632 41.9632 46.5 35.75 46.5C29.5368 46.5 24.5 41.4632 24.5 35.25Z"
-                class="ccustom"
-                fill="#17CF97"></path>
-              <path
-                d="M2 35.25C2 41.4632 7.03679 46.5 13.25 46.5H24.5V35.25C24.5 29.0368 19.4632 24 13.25 24C7.03679 24 2 29.0368 2 35.25Z"
-                class="ccustom"
-                fill="#17CF97"></path>
-              <path
-                d="M47 12.75C47 6.53679 41.9632 1.5 35.75 1.5H24.5V12.75C24.5 18.9632 29.5368 24 35.75 24C41.9632 24 47 18.9632 47 12.75Z"
-                class="ccustom"
-                fill="#17CF97"></path>
-            </svg>
-          </div>
-          <div class="inline-flex text-lg font-semibold text-heading-1">
-            SocialMediaAgency
+      <div class="min-w-max inline-flex relative lg:w-1/4">
+        <a href="#hero-section" class="relative flex items-center gap-3 pointer-events-none" id="logo-link">
+          <div class="flex items-center gap-4">
+            <Image
+              src={kuaruLogo}
+              alt="KUARU STUDIO Logo"
+              class="h-10 w-auto opacity-0 transition-opacity duration-300"
+              id="logo-image"
+            />
+            <div class="font-bold text-3xl leading-none font-work-sans text-transparent select-none transition-colors duration-300" id="logo-text">
+              KUARU STUDIOS
+            </div>
           </div>
         </a>
       </div>
 
-      <div
-        data-nav-overlay
-        aria-hidden="true"
-        class="fixed hidden inset-0 lg:!hidden bg-box-bg bg-opacity-50 backdrop-filter backdrop-blur-xl"
-      >
-      </div>
+      <!-- navigation menu -->
       <div
         data-navbar
-        class="flex h-0 overflow-hidden lg:!h-auto lg:scale-y-100 duration-300 ease-linear flex-col gap-y-6 gap-x-4 lg:flex-row w-full lg:justify-between lg:items-center absolute lg:relative top-full lg:top-0 bg-body lg:bg-transparent border-x border-x-box-border lg:border-x-0"
+        class="flex h-0 overflow-hidden lg:!h-auto lg:scale-y-100 duration-300 ease-linear flex-col gap-y-6 gap-x-4 lg:flex-row w-full lg:w-2/4 lg:justify-center lg:items-center fixed lg:static top-[48px] lg:top-0 inset-x-0 lg:inset-x-auto bg-transparent backdrop-blur-none lg:bg-transparent border-x border-x-[#f4f4f4] lg:border-x-0 transition-all duration-300"
       >
         <ul
-          class="border-t border-box-border lg:border-t-0 px-6 lg:px-0 pt-6 lg:pt-0 flex flex-col lg:flex-row gap-y-4 gap-x-3 text-lg text-heading-2 w-full lg:justify-center lg:items-center"
+          class="border-t border-[#f4f4f4] lg:border-t-0 px-6 lg:px-0 pt-6 lg:pt-0 flex flex-col lg:flex-row gap-y-4 gap-x-3 text-lg text-[#f4f4f4] w-full lg:w-auto lg:justify-center lg:items-center transition-colors duration-300 font-['Zen_Kaku_Gothic_New',sans-serif]"
         >
           {
-            navItems.map((item) => {
-              return <Navitem {...item} />;
+            navItems.map((item, index) => {
+              return <Navitem {...item} isLast={index === navItems.length - 1} />;
             })
           }
         </ul>
-
-        <div
-          class="lg:min-w-max flex items-center sm:w-max w-full pb-6 lg:pb-0 border-b border-box-bg lg:border-0 px-6 lg:px-0"
-        >
-          <BtnLink
-            text="Get Started"
-            href="#cta"
-            className="flex justify-center w-full sm:w-max"
-            variant="primary"
-          />
-        </div>
       </div>
 
-      <div class="min-w-max flex items-center gap-x-3">
-        <button
-          data-switch-theme
-          class="outline-none flex relative text-heading-2 rounded-full p-2 lg:p-3 border border-box-border hover:bg-slate-200 dark:hover:bg-slate-800"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6 dark:flex hidden"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-            ></path>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6 dark:hidden"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-            ></path>
-          </svg>
-
-          <span class="sr-only">switch theme</span>
-        </button>
-
+      <!-- hamburger menu button -->
+      <div class="min-w-max flex items-center gap-x-3 lg:w-1/4 lg:justify-end">
         <button
           data-toggle-nav
           data-open-nav="false"
@@ -142,15 +70,15 @@ const navItems = [
         >
           <span
             id="line1"
-            class="w-6 h-0.5 rounded-full bg-heading-2 transition-all duration-300 ease-linear"
+            class="w-6 h-0.5 rounded-full bg-[#2C2C2C] transition-all duration-300 ease-linear"
           ></span>
           <span
             id="line2"
-            class="w-6 origin-center mt-1 h-0.5 rounded-ful bg-heading-2 transition-all duration-300 ease-linear"
+            class="w-6 origin-center mt-1 h-0.5 rounded-ful bg-[#2C2C2C] transition-all duration-300 ease-linear"
           ></span>
           <span
             id="line3"
-            class="w-6 mt-1 h-0.5 rounded-ful bg-heading-2 transition-all duration-300 ease-linear"
+            class="w-6 mt-1 h-0.5 rounded-ful bg-[#2C2C2C] transition-all duration-300 ease-linear"
           ></span>
           <span class="sr-only">togglenav</span>
         </button>
@@ -158,3 +86,113 @@ const navItems = [
     </nav>
   </Container>
 </header>
+
+<script>
+  const toggleNav = document.querySelector('[data-toggle-nav]');
+  const navbar = document.querySelector('[data-navbar]');
+  const header = document.getElementById('header');
+  const logoText = document.getElementById('logo-text');
+  const logoLink = document.getElementById('logo-link');
+  const logoImage = document.getElementById('logo-image');
+  let timeoutId: number | null = null;
+  let isPrivacyPage = false;
+
+  // 监听隐私政策页面状态变化
+  window.addEventListener('privacyPageStateChange', (e: CustomEvent) => {
+    isPrivacyPage = e.detail.isPrivacyPage;
+    if (isPrivacyPage) {
+      // 在隐私政策页面时强制显示 header 和 logo
+      if (header) {
+        header.classList.add('bg-[#4c5c68]');
+        header.classList.remove('bg-transparent');
+      }
+      if (logoText) {
+        logoText.classList.remove('text-transparent');
+        logoText.classList.add('text-[#f4f4f4]');
+      }
+      if (logoImage) {
+        logoImage.classList.remove('opacity-0');
+        logoImage.classList.add('opacity-100');
+      }
+      if (logoLink) {
+        logoLink.classList.remove('pointer-events-none');
+      }
+    } else {
+      // 返回主页时恢复滚动效果
+      handleScroll();
+    }
+  });
+
+  if (toggleNav && navbar) {
+    // Toggle menu button click
+    toggleNav.addEventListener('click', () => {
+      const isOpen = toggleNav.getAttribute('data-open-nav') === 'true';
+      toggleNav.setAttribute('data-open-nav', (!isOpen).toString());
+      navbar.style.height = isOpen ? '0' : `${navbar.scrollHeight}px`;
+    });
+
+    // Mouse enter menu
+    navbar.addEventListener('mouseenter', () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+    });
+
+    // Mouse leave menu
+    navbar.addEventListener('mouseleave', () => {
+      timeoutId = window.setTimeout(() => {
+        toggleNav.setAttribute('data-open-nav', 'false');
+        navbar.style.height = '0';
+      }, 100); // Delay before menu closes (in milliseconds)
+    });
+  }
+
+  // 处理滚动效果
+  function handleScroll() {
+    if (window.scrollY > 50) {
+      header.classList.add('bg-[#4c5c68]');
+      header.classList.remove('bg-transparent');
+      // Update logo text color
+      if (logoText) {
+        logoText.classList.remove('text-transparent');
+        logoText.classList.add('text-[#f4f4f4]');
+      }
+      // Show logo image
+      if (logoImage) {
+        logoImage.classList.remove('opacity-0');
+        logoImage.classList.add('opacity-100');
+      }
+      // Enable logo link clicks
+      if (logoLink) {
+        logoLink.classList.remove('pointer-events-none');
+      }
+    } else {
+      header.classList.remove('bg-[#4c5c68]');
+      header.classList.add('bg-transparent');
+      // Restore logo text color
+      if (logoText) {
+        logoText.classList.remove('text-[#f4f4f4]');
+        logoText.classList.add('text-transparent');
+      }
+      // Hide logo image
+      if (logoImage) {
+        logoImage.classList.remove('opacity-100');
+        logoImage.classList.add('opacity-0');
+      }
+      // Disable logo link clicks
+      if (logoLink) {
+        logoLink.classList.add('pointer-events-none');
+      }
+    }
+  }
+
+  // Scroll event listener
+  if (header) {
+    window.addEventListener('scroll', () => {
+      if (!isPrivacyPage) {
+        handleScroll();
+      }
+    });
+  }
+</script>

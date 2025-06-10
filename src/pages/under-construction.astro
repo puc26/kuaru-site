@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/shared/Container.astro";
+import SimpleNavbar from "../layouts/SimpleNavbar.astro";
+---
+
+<Layout title="Under Construction - KUARU STUDIO" showNavbar={false}>
+  <SimpleNavbar />
+  <main class="min-h-[80vh] flex items-center justify-center">
+    <Container>
+      <div class="text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-heading-1 mb-4">
+          Coming Soon
+        </h1>
+        <p class="text-xl text-heading-2 mb-8">
+          We're crafting something extraordinary. Stay tuned for our launch.
+        </p>
+        <div class="animate-pulse">
+          <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto animate-spin"></div>
+        </div>
+      </div>
+    </Container>
+  </main>
+</Layout>
+
+<style>
+  body {
+    font-family: 'Work Sans', sans-serif;
+  }
+</style> 

@@ -1,0 +1,92 @@
+<section id="terms" class="py-16 bg-[#f4f4f4] min-h-screen" style="display: none;">
+  <div class="container mx-auto px-4 pt-24 max-w-screen-md">
+    <button id="back-to-main-terms" class="mb-8 text-[#a3a3a3] hover:text-[#9C8260] transition">
+      ← Back to Home
+    </button>
+    <h1 class="text-3xl font-bold mb-6 text-center">Terms of Service</h1>
+    <hr class="border-t border-gray-300 my-8" />
+    <p class="mb-4 text-justify">These Terms of Service (“Terms”) are issued by <strong class="font-bold">KUARU STUDIOS LLC</strong> (“Company”, “we”, or “our”) and govern your use of our website and related services (collectively referred to as “this Website”).</p>
+    <p class="mb-4 text-justify">By accessing or using this Website, you agree to be bound by these Terms. If you do not agree to any part of these Terms, please do not use this Website.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">1. Acceptance of Terms</h2>
+    <p class="mb-4 text-justify">By using this Website, you confirm that you accept these Terms and agree to comply with all applicable laws and regulations. If you disagree with any part of these Terms, you must discontinue using this Website immediately.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">2. Use License</h2>
+    <p class="mb-4 text-justify">Permission is granted to temporarily download one copy of the materials (information or software) on <strong class="font-bold">KUARU STUDIOS LLC</strong>'s website for personal, non-commercial transitory viewing only.</p>
+    <p class="mb-4 text-justify">This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+    <ul class="list-disc pl-6 mb-4">
+      <li>Modify or copy the materials</li>
+      <li>Use the materials for any commercial purpose</li>
+      <li>Attempt to decompile or reverse engineer any software contained on <strong class="font-bold">KUARU STUDIOS LLC</strong>'s website</li>
+      <li>Remove any copyright or other proprietary notations from the materials</li>
+      <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+    </ul>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">Disclaimer of Warranties</h2>
+    <p class="mb-4 text-justify">All content and materials on this Website are provided “as is” without warranties of any kind, either express or implied. <strong class="font-bold">KUARU STUDIOS LLC</strong> does not guarantee the accuracy, completeness, or reliability of the Website content.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">4. Limitation of Liability</h2>
+    <p class="mb-4 text-justify">To the fullest extent permitted by law, <strong class="font-bold">KUARU STUDIOS LLC</strong> and its affiliates shall not be liable for any damages arising from the use or inability to use this Website, including but not limited to direct, indirect, incidental, or consequential damages.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">5. External Links</h2>
+    <p class="mb-4 text-justify">This Website may contain links to third-party websites. <strong class="font-bold">KUARU STUDIOS LLC</strong> does not endorse or assume responsibility for the content, privacy policies, or practices of any third-party sites.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">6. Changes to Terms</h2>
+    <p class="mb-4 text-justify"><strong class="font-bold">KUARU STUDIOS LLC</strong> may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">7. Governing Law and Jurisdiction</h2>
+    <p class="mb-4 text-justify">These Terms shall be governed by and construed in accordance with the laws of the jurisdiction where <strong class="font-bold">KUARU STUDIOS LLC</strong> is registered. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts located therein.</p>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">8. Contact Us</h2>
+    <p class="mb-4 text-justify">If you have any questions about these Terms, please contact us at:</p>
+    <p class="mb-4 font-bold text-justify">KUARU STUDIOS LLC</p>
+    <p>📧 Email: <a href="mailto:hello@kuarustudios.com" class="text-black underline hover:underline">hello@kuarustudios.com</a></p>
+    <p>🌐 Website: <a href="https://kuarustudios.com" target="_blank" rel="noopener noreferrer" class="text-black underline hover:underline">https://kuarustudios.com</a></p>
+  </div>
+  
+  <!-- Add scroll to top button -->
+  <button id="scroll-to-top-terms" class="fixed bottom-8 right-8 bg-[#a3a3a3] text-white p-3 rounded-full shadow-lg hover:bg-[#9C8260] transition-all duration-300 opacity-0 invisible z-[9999]">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const backButton = document.getElementById('back-to-main-terms');
+    const termsSection = document.getElementById('terms');
+    const mainContent = document.querySelector('main');
+    const scrollToTopButton = document.getElementById('scroll-to-top-terms');
+
+    if (backButton && termsSection && mainContent) {
+      backButton.addEventListener('click', () => {
+        termsSection.style.display = 'none';
+        mainContent.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // Handle scroll to top button
+    if (scrollToTopButton) {
+      // Listen for scroll events
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollToTopButton.classList.remove('opacity-0', 'invisible');
+          scrollToTopButton.classList.add('opacity-100', 'visible');
+        } else {
+          scrollToTopButton.classList.add('opacity-0', 'invisible');
+          scrollToTopButton.classList.remove('opacity-100', 'visible');
+        }
+      });
+
+      // Click to scroll to top
+      scrollToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+  });
+</script> 

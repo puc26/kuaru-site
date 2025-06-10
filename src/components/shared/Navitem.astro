@@ -2,11 +2,13 @@
 export interface Props{
     href:string,
     text:string,
+    isLast?: boolean
 }
-const {href, text} = Astro.props
+const {href, text, isLast} = Astro.props
 ---
-<li>
-    <a href={href} class="duration-300 font-medium ease-linear hover:text-primary py-3">
-    {text}
+<li class="flex items-center">
+    <a href={href} class="text-[#f4f4f4] transition hover:text-[#9C8260] font-medium ease-linear py-3 mx-2 text-base">
+        {text}
     </a>
+    {!isLast && <span class="text-[#a3a3a3] mx-2">|</span>}
 </li>

@@ -3,123 +3,80 @@ import GroupFooterNav from "../components/blocks/GroupFooterNav.astro";
 import Container from "../components/shared/Container.astro";
 import FooterNav from "../components/shared/FooterNav.astro";
 import Paragraph from "../components/shared/Paragraph.astro";
+import { Image } from "astro:assets";
+import kuaruLogo from "../assets/logos/kuaru-logo-2.png";
 
-const footerNav1 = [
-  {
-    itemText: "Marketing",
-    itemLink: "#",
-  },
-  {
-    itemText: "Analylitics",
-    itemLink: "#",
-  },
-  {
-    itemText: "Commerce",
-    itemLink: "#",
-  },
-  {
-    itemText: "Insights",
-    itemLink: "#",
-  },
-];
+const footerNav1 = [];
 
-const footerSupport = [
-  {
-    itemText: "Pricing",
-    itemLink: "#",
-  },
-  {
-    itemText: "Guides",
-    itemLink: "#",
-  },
-  {
-    itemText: "FAQ",
-    itemLink: "#",
-  },
-  {
-    itemText: "Contact",
-    itemLink: "#",
-  },
-];
+const footerSupport = [];
 
-const footerCompany = [
-  {
-    itemText: "About",
-    itemLink: "#",
-  },
-  {
-    itemText: "Blog",
-    itemLink: "#",
-  },
-  {
-    itemText: "Jobs",
-    itemLink: "#",
-  },
-  {
-    itemText: "Parteners",
-    itemLink: "#",
-  },
-  {
-    itemText: "Jobs",
-    itemLink: "#",
-  },
-];
+const footerCompany = [];
 const footerLegal = [
   {
-    itemText: "Claim",
-    itemLink: "#",
-  },
-  {
     itemText: "Privacy",
-    itemLink: "#",
+    itemLink: "#privacy-policy",
   },
   {
     itemText: "Terms",
-    itemLink: "#",
+    itemLink: "#terms",
   },
 ];
+
+const footerLeftNav = [
+  {
+    itemText: "Home",
+    itemLink: "#hero-section",
+  },
+  {
+    itemText: "About",
+    itemLink: "#about",
+  },
+  {
+    itemText: "hello@kuarustudios.com",
+    itemLink: "mailto:hello@kuarustudios.com",
+  },
+];
+
 ---
 
 <div class="relative mt-16">
-  <span
-    class="w-20 h-20 rounded-full bg-gradient-to-br from-sky-500 from-0% via-primary via-80% to-green-600 to-110% absolute left-1/3 bottom-1/3"
-  ></span>
-  <span
-    class="w-40 h-40 rounded-full bg-gradient-to-br from-yellow-400 from-0% via-green-600 via-60% via-sky-700 via-85% to-primary to-100% absolute right-1 top-2/4"
-  ></span>
-  <span
-    class="w-40 h-40 rounded-full bg-gradient-to-br from-sky-500 from-0% via-primary via-80% to-green-600 to-110% absolute right-1/4 bottom-0"
-  ></span>
-  <span
-    class="w-20 h-20 rounded-full bg-gradient-to-br from-green-500 from-0% via-primary via-80% to-sky-600 to-110% absolute right-1/3 top-1/3"
-  ></span>
-
-  <span
-    class="w-40 h-40 rounded-full bg-gradient-to-br from-green-500 from-0% via-primary via-80% to-sky-600 to-110% absolute left-0 top-1/3"
-  ></span>
   <footer
-    class="relative bg-gradient-to-tr from-slate-100/85 to-zinc-200/85 dark:from-slate-800/85 dark:to-zinc-800/85 pt-28 rounded-t-3xl backdrop-blur-md"
+    id="footer"
+    class="relative bg-[#4c5c68] shadow-[0_-4px_20px_rgba(0,0,0,0.3)] pt-8 pb-4"
   >
-    <Container className="pb-8 relative overflow-auto ">
+    <Container className="relative overflow-auto">
       <div
-        class="grid grid-cols-2 lg:grid-cols-3 lg:items-stretch gap-8 relative"
+        class="flex flex-col justify-between items-start gap-1 text-sm text-[#f4f4f4]"
       >
-        <div class="col-span-2 lg:col-span-1 h-auto flex flex-col">
-          <div class="h-full">
-            <a href="#" class="relative flex items-center gap-3">
-              <div class="inline-flex text-lg font-semibold text-heading-1">
-                AgenceX
-              </div>
-            </a>
-            <Paragraph className={"mt-8"}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae,
-              maiores nam doloribus id magni
-            </Paragraph>
+        <!-- Brand Logo and Slogan -->
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-2">
+            <h2 class="text-[#f4f4f4] font-bold font-work-sans text-xl">KUARU STUDIOS</h2>
           </div>
-
+          <Paragraph className="!text-[#f4f4f4] text-base leading-relaxed font-[var(--font-sans)]">
+            Rooted in Quality. Elegance in Simplicity.
+          </Paragraph>
+        </div>
+        <div class="flex flex-col gap-4 w-full mt-4">
+          <div class="w-full h-px bg-[#a3a3a3] opacity-30 mt-2 mb-2"></div>
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <GroupFooterNav>
+              <FooterNav title={null} navItems={footerLeftNav} />
+            </GroupFooterNav>
+            <div class="flex items-center gap-4">
+              <a href="#privacy-policy" class="transition hover:text-[#9C8260]">Privacy</a>
+              <span class="text-[#a3a3a3]">|</span>
+              <a href="#terms" class="transition hover:text-[#9C8260]">Terms</a>
+              <span class="text-[#a3a3a3]">|</span>
+              <div>
+                &copy; <span id="year"></span> Kuaru Studios LLC. All right reserved
+              </div>
+            </div>
+          </div>
+        </div>
           <!-- social links -->
-          <div class="min-h-max flex items-center gap-4 text-heading-3 mt-8">
-            <a href="#" class="transition hover:text-heading-1 hover:scale-105">
+        <div class="min-h-max flex items-center gap-4 text-[#f4f4f4] mt-8 hidden">
+          <a href="#" class="transition hover:text-[#9C8260] hover:scale-105">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -135,7 +92,7 @@ const footerLegal = [
               <span class="sr-only">social link</span>
             </a>
 
-            <a href="#" class="transition hover:text-heading-1 hover:scale-105">
+          <a href="#" class="transition hover:text-[#9C8260] hover:scale-105">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -151,7 +108,7 @@ const footerLegal = [
               <span class="sr-only">social link</span>
             </a>
 
-            <a href="#" class="transition hover:text-heading-1 hover:scale-105">
+          <a href="#" class="transition hover:text-[#9C8260] hover:scale-105">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -167,7 +124,7 @@ const footerLegal = [
               <span class="sr-only">social link</span>
             </a>
 
-            <a href="#" class="transition hover:text-heading-1 hover:scale-105">
+          <a href="#" class="transition hover:text-[#9C8260] hover:scale-105">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -183,36 +140,11 @@ const footerLegal = [
               <span class="sr-only">social link</span>
             </a>
           </div>
-        </div>
-
-        <GroupFooterNav>
-          <FooterNav title={"Company"} navItems={footerCompany} />
-          <FooterNav title={"Solutions"} navItems={footerNav1} />
-        </GroupFooterNav>
-
-        <GroupFooterNav>
-          <FooterNav title={"Support"} navItems={footerSupport} />
-          <FooterNav title={"Ressources"} navItems={footerLegal} />
-        </GroupFooterNav>
       </div>
     </Container>
-    <div class="py-2 relative">
-      <Container>
-        <div
-          class="flex justify-between items-center gap-6 md:text-lg text-heading-3"
-        >
-          <div>
-            &copy; <span id="year"></span> AgenceX. All right reserved
-          </div>
-          <div>
-            Made by <a
-              href="https://github.com/vbartalis"
-              target="_blank"
-              class="font-semibold">vbartalis</a
-            >
-          </div>
-        </div>
-      </Container>
-    </div>
   </footer>
 </div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
