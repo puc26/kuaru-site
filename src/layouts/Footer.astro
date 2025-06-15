@@ -61,12 +61,12 @@ const footerLeftNav = [
           <div class="w-full h-px bg-[#a3a3a3] opacity-30 mt-2 mb-2"></div>
           <div class="flex flex-col md:flex-row justify-between items-center gap-4">
             <GroupFooterNav>
-              <FooterNav title={null} navItems={footerLeftNav} />
+              <FooterNav title="" navItems={footerLeftNav} />
             </GroupFooterNav>
             <div class="flex items-center gap-4">
-              <a href="#privacy-policy" class="transition hover:text-[#9C8260]">Privacy</a>
+              <a href="#privacy-policy" class="transition hover:text-[#9C8260]">Privacy Policy</a>
               <span class="text-[#a3a3a3]">|</span>
-              <a href="#terms" class="transition hover:text-[#9C8260]">Terms</a>
+              <a href="#terms" class="transition hover:text-[#9C8260]">Terms of Service</a>
               <span class="text-[#a3a3a3]">|</span>
               <div>
                 &copy; <span id="year"></span> Kuaru Studios LLC. All right reserved
@@ -146,5 +146,10 @@ const footerLeftNav = [
 </div>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+  document.addEventListener('DOMContentLoaded', () => {
+    const yearElement = document.getElementById('year');
+    if (yearElement) {
+      yearElement.textContent = new Date().getFullYear().toString();
+    }
+  });
 </script>

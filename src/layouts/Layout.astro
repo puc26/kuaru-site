@@ -39,303 +39,51 @@ const { title, showNavbar = true } = Astro.props;
   </body>
 </html>
 
-<script>
-  let isPrivacyPage = false;
-  let isTermsPage = false;
+  <script>
+  interface SmoothScrollOptions {
+    duration: number;
+    easing: (t: number) => number;
+  }
+
+  const smoothScroll = (targetId: string, options: SmoothScrollOptions) => {
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) return;
+
+    const startPosition = window.scrollY;
+    const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+    const distance = targetPosition - startPosition;
+    let start: number | null = null;
+
+    const animation = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const percentage = Math.min(progress / options.duration, 1);
+      const easePercentage = options.easing(percentage);
+
+      window.scrollTo(0, startPosition + distance * easePercentage);
+
+      if (progress < options.duration) {
+        window.requestAnimationFrame(animation);
+    }
+    };
+
+    window.requestAnimationFrame(animation);
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Handle smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      if (anchor.getAttribute('href') === '#') return;
-
-      anchor.addEventListener('click', function (e) {
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
         e.preventDefault();
-
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-
-        if (targetElement) {
-          // If it's a Home or About link, switch back to main content area first
-          if ((targetId === 'hero-section' || targetId === 'about') && (isPrivacyPage || isTermsPage)) {
-            const privacySection = document.getElementById('privacy-policy');
-            const termsSection = document.getElementById('terms');
-            const mainContent = document.querySelector('main');
-            const header = document.querySelector('header');
-            const logo = document.querySelector('.logo');
-
-            if ((privacySection || termsSection) && mainContent && header) {
-              // Add fade out effect
-              if (privacySection) privacySection.style.opacity = '0';
-              if (termsSection) termsSection.style.opacity = '0';
-              setTimeout(() => {
-                if (privacySection) privacySection.style.display = 'none';
-                if (termsSection) termsSection.style.display = 'none';
-                mainContent.style.display = 'block';
-                // Add fade in effect
-                setTimeout(() => {
-                  mainContent.style.opacity = '1';
-                  // Scroll to target section after content is shown
-                  const targetSection = document.getElementById(targetId);
-                  if (targetSection) {
-                    const startPosition = window.pageYOffset;
-                    const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
-                    const distance = targetPosition - startPosition;
-                    const duration = 150;
-                    let start = null;
-
-                    window.requestAnimationFrame(function step(timestamp) {
-                      if (!start) start = timestamp;
-                      const progress = timestamp - start;
-                      const percentage = Math.min(progress / duration, 1);
-
-                      window.scrollTo(0, startPosition + distance * percentage);
-
-                      if (progress < duration) {
-                        window.requestAnimationFrame(step);
-                      }
-                    });
-                  }
-                }, 50);
-              }, 500);
-
-              isPrivacyPage = false;
-              isTermsPage = false;
-              
-              // Restore header style
-              header.style.backgroundColor = '';
-              header.style.transition = '';
-              if (logo) {
-                logo.style.opacity = '';
-              }
-
-              // Trigger page state change event
-              window.dispatchEvent(new CustomEvent('pageStateChange', {
-                detail: { isPrivacyPage: false, isTermsPage: false }
-              }));
-            }
-          } else if (targetId === 'privacy-policy') {
-            // Handle switching to privacy policy page
-            const privacySection = document.getElementById('privacy-policy');
-            const termsSection = document.getElementById('terms');
-            const mainContent = document.querySelector('main');
-            const header = document.querySelector('header');
-            const logo = document.querySelector('.logo');
-
-            if (privacySection && mainContent && header) {
-              isPrivacyPage = true;
-              isTermsPage = false;
-              
-              // Add fade out effect
-              mainContent.style.opacity = '0';
-              if (termsSection) termsSection.style.opacity = '0';
-              setTimeout(() => {
-                mainContent.style.display = 'none';
-                if (termsSection) termsSection.style.display = 'none';
-                privacySection.style.display = 'block';
-                // Add fade in effect
-                setTimeout(() => {
-                  privacySection.style.opacity = '1';
-                  // Scroll to privacy policy section after content is shown
-                  const startPosition = window.pageYOffset;
-                  const targetPosition = privacySection.getBoundingClientRect().top + window.pageYOffset;
-                  const distance = targetPosition - startPosition;
-                  const duration = 150;
-                  let start = null;
-
-                  window.requestAnimationFrame(function step(timestamp) {
-                    if (!start) start = timestamp;
-                    const progress = timestamp - start;
-                    const percentage = Math.min(progress / duration, 1);
-
-                    window.scrollTo(0, startPosition + distance * percentage);
-
-                    if (progress < duration) {
-                      window.requestAnimationFrame(step);
-                    }
-                  });
-                }, 50);
-              }, 500);
-
-              // Set header style
-              header.style.backgroundColor = '#4c5c68';
-              header.style.transition = 'background-color 0.3s ease';
-              if (logo) {
-                logo.style.opacity = '1';
-              }
-
-              // Trigger page state change event
-              window.dispatchEvent(new CustomEvent('pageStateChange', {
-                detail: { isPrivacyPage: true, isTermsPage: false }
-              }));
-            }
-          } else if (targetId === 'terms') {
-            // Handle switching to terms page
-            const privacySection = document.getElementById('privacy-policy');
-            const termsSection = document.getElementById('terms');
-            const mainContent = document.querySelector('main');
-            const header = document.querySelector('header');
-            const logo = document.querySelector('.logo');
-
-            if (termsSection && mainContent && header) {
-              isPrivacyPage = false;
-              isTermsPage = true;
-              
-              // Add fade out effect
-              mainContent.style.opacity = '0';
-              if (privacySection) privacySection.style.opacity = '0';
-              setTimeout(() => {
-                mainContent.style.display = 'none';
-                if (privacySection) privacySection.style.display = 'none';
-                termsSection.style.display = 'block';
-                // Add fade in effect
-                setTimeout(() => {
-                  termsSection.style.opacity = '1';
-                  // Scroll to terms section after content is shown
-                  const startPosition = window.pageYOffset;
-                  const targetPosition = termsSection.getBoundingClientRect().top + window.pageYOffset;
-                  const distance = targetPosition - startPosition;
-                  const duration = 150;
-                  let start = null;
-
-                  window.requestAnimationFrame(function step(timestamp) {
-                    if (!start) start = timestamp;
-                    const progress = timestamp - start;
-                    const percentage = Math.min(progress / duration, 1);
-
-                    window.scrollTo(0, startPosition + distance * percentage);
-
-                    if (progress < duration) {
-                      window.requestAnimationFrame(step);
-                    }
-                  });
-                }, 50);
-              }, 500);
-
-              // Set header style
-              header.style.backgroundColor = '#4c5c68';
-              header.style.transition = 'background-color 0.3s ease';
-              if (logo) {
-                logo.style.opacity = '1';
-              }
-
-              // Trigger page state change event
-              window.dispatchEvent(new CustomEvent('pageStateChange', {
-                detail: { isPrivacyPage: false, isTermsPage: true }
-              }));
-            }
-          } else {
-            // If not a special link, perform normal scrolling
-            const startPosition = window.pageYOffset;
-            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 150;
-            let start = null;
-
-            window.requestAnimationFrame(function step(timestamp) {
-              if (!start) start = timestamp;
-              const progress = timestamp - start;
-              const percentage = Math.min(progress / duration, 1);
-
-              window.scrollTo(0, startPosition + distance * percentage);
-
-              if (progress < duration) {
-                window.requestAnimationFrame(step);
-              }
-            });
-          }
+        const href = this.getAttribute('href');
+        if (href) {
+          const targetId = href.substring(1);
+          smoothScroll(targetId, {
+            duration: 1000,
+            easing: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+          });
         }
       });
-    });
-
-    // Handle privacy policy display
-    const privacyLink = document.querySelector('a[href="#privacy-policy"]');
-    const privacySection = document.getElementById('privacy-policy');
-    const mainContent = document.querySelector('main');
-    const header = document.querySelector('header');
-    const logo = document.querySelector('.logo');
-
-    if (privacyLink && privacySection && mainContent && header) {
-      privacyLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        isPrivacyPage = true;
-        
-        // Add fade out effect
-        mainContent.style.opacity = '0';
-        setTimeout(() => {
-          mainContent.style.display = 'none';
-          privacySection.style.display = 'block';
-          // Add fade in effect
-          setTimeout(() => {
-            privacySection.style.opacity = '1';
-          }, 50);
-        }, 500);
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        // Set header style
-        header.style.backgroundColor = '#4c5c68';
-        header.style.transition = 'background-color 0.3s ease';
-        if (logo) {
-          logo.style.opacity = '1';
-        }
-
-        // Trigger privacy policy page state change event
-        window.dispatchEvent(new CustomEvent('privacyPageStateChange', {
-          detail: { isPrivacyPage: true }
-        }));
-      });
-    }
-
-    // Handle back button
-    const backButton = document.getElementById('back-to-main');
-    if (backButton && privacySection && mainContent && header) {
-      backButton.addEventListener('click', () => {
-        isPrivacyPage = false;
-        
-        // Add fade out effect
-        privacySection.style.opacity = '0';
-        setTimeout(() => {
-          privacySection.style.display = 'none';
-          mainContent.style.display = 'block';
-          // Add fade in effect
-          setTimeout(() => {
-            mainContent.style.opacity = '1';
-          }, 50);
-        }, 500);
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        // Restore header style
-        header.style.backgroundColor = '';
-        header.style.transition = '';
-        if (logo) {
-          logo.style.opacity = '';
-        }
-
-        // Trigger privacy policy page state change event
-        window.dispatchEvent(new CustomEvent('privacyPageStateChange', {
-          detail: { isPrivacyPage: false }
-        }));
-      });
-    }
-
-    // Listen for scroll events
-    window.addEventListener('scroll', () => {
-      if (isPrivacyPage || isTermsPage) return; // If on privacy or terms page, don't execute scroll effect
-
-      const scrollPosition = window.scrollY;
-      const header = document.querySelector('header');
-      const logo = document.querySelector('.logo');
-
-      if (header && logo) {
-        if (scrollPosition > 50) {
-          header.style.backgroundColor = '#4c5c68';
-          logo.style.opacity = '1';
-        } else {
-          header.style.backgroundColor = '';
-          logo.style.opacity = '';
-        }
-      }
     });
   });
 </script>
@@ -345,7 +93,7 @@ const { title, showNavbar = true } = Astro.props;
     --font-sans: 'M PLUS Rounded 1c', sans-serif;
     --font-heading: 'Zen Kaku Gothic New', sans-serif;
     --font-noto-jp: 'Noto Sans JP', sans-serif;
-  }
+        }
 
   body {
     font-family: var(--font-sans);
@@ -364,5 +112,5 @@ const { title, showNavbar = true } = Astro.props;
   main {
     opacity: 1;
     transition: opacity 0.5s ease;
-  }
+    }
 </style>

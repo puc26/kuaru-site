@@ -36,7 +36,7 @@ const { className } = Astro.props;
       <div class="mt-4 text-[#f4f4f4] font-work-sans font-bold" id="hero-text-logo">
          KUARU STUDIOS
       </div>
-      <Paragraph className="mt-[4vh] text-[2.5vw] font-light font-[var(--font-sans)] text-[#f4f4f4] tracking-[0.5em] transition-transform duration-300">
+      <Paragraph className="mt-[4vh] font-light font-[var(--font-sans)] text-[#f4f4f4] tracking-[0.5em] transition-transform duration-300">
         &nbsp;Rooted in Quality. Elegance in Simplicity.
       </Paragraph>
     </div>
@@ -51,7 +51,7 @@ const { className } = Astro.props;
   function updateBackgroundColor() {
     const scrollPosition = window.scrollY;
     const heroHeight = heroSection.offsetHeight;
-    const logoElement = heroSection.querySelector('img');
+    const logoElement = heroSection.querySelector('img') as HTMLImageElement;
     const logoHeight = logoElement ? logoElement.offsetHeight : 0;
     const logoTop = logoElement ? logoElement.getBoundingClientRect().top + window.scrollY : 0;
     const logoMidPoint = logoTop + (logoHeight / 2);
@@ -84,7 +84,9 @@ const { className } = Astro.props;
     const textElements = heroSection.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
     const textColor = bgScrollProgress > 0.5 ? '#2C2C2C' : '#f4f4f4';
     textElements.forEach(element => {
-      element.style.color = textColor;
+      if (element instanceof HTMLElement) {
+        element.style.color = textColor;
+      }
     });
 
     // 添加上移消逝动画
@@ -123,4 +125,43 @@ const { className } = Astro.props;
   // 初始化颜色和字体大小
   updateBackgroundColor();
   setHeroTextLogoSize();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroSection = document.querySelector('.hero-section') as HTMLElement;
+    if (!heroSection) return;
+
+    const logoElement = heroSection.querySelector('img') as HTMLImageElement;
+    if (!logoElement) return;
+
+    const heroHeight = heroSection.offsetHeight;
+    const textElements = heroSection.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
+
+    // 更新背景顏色
+    function updateBackgroundColor() {
+      const currentColor = [76, 92, 104];
+      heroSection.style.backgroundColor = `rgb(${currentColor.join(',')})`;
+    }
+
+    // 更新文字顏色
+    function updateTextColor(textColor: string) {
+      textElements.forEach((element) => {
+        if (element instanceof HTMLElement) {
+          element.style.color = textColor;
+        }
+      });
+    }
+
+    // 處理 logo 加載
+    if (logoElement.complete) {
+      // Logo 已經加載完成
+      updateBackgroundColor();
+      updateTextColor('#ffffff');
+    } else {
+      // Logo 正在加載
+      logoElement.addEventListener('load', () => {
+        updateBackgroundColor();
+        updateTextColor('#ffffff');
+      });
+    }
+  });
 </script>
