@@ -25,20 +25,20 @@ const { className } = Astro.props;
       class="relative flex flex-col items-center text-center w-full -mt-[25vh]"
       id="hero-content"
     >
-      <div class="w-[60vw] sm:w-[50vw] lg:w-[35vw] transition-transform duration-700">
+      <div class="w-[60vw] sm:w-[50vw] lg:w-[35vw] transition-transform duration-3000 glow-img-wrapper" style={`--logo:url('${kuaruLogo.src}')`}>
         <Image
           src={kuaruLogo}
           alt="KUARU STUDIO Logo"
-          class="w-full h-auto opacity-0 translate-y-6 transition-all ease-out duration-700 glow-pulse-img"
+          class="w-full h-auto opacity-0 translate-y-6 transition-all ease-out duration-700"
           id="hero-logo"
           data-scrollfade
         />
-        </div>
+      </div>
       <div id="hero-text-wrap" data-scrollfade class="flex flex-col items-center justify-center gap-4 text-center opacity-0 translate-y-6 transition-all ease-out duration-700">
          <h1 id="hero-text-logo" data-scrollfade data-text="KUARU STUDIOS" class="relative inline-block text-[clamp(1.75rem,8vw,6rem)] font-bold text-[#f4f4f4] font-work-sans whitespace-nowrap opacity-0 translate-y-4 transition-all ease-out duration-700 glow-pulse-text">
            KUARU STUDIOS
          </h1>
-         <Paragraph id="hero-slogan" className="mt-[0vh] font-thin !text-[#a3a3a3] tracking-[0em] md:tracking-[0.1em] text-lg md:text-xl lg:text-xl xl:text-2xl 2xl:text-3xl whitespace-nowrap">
+         <Paragraph id="hero-slogan" className="mt-[0vh] font-thin !text-[#c8c8c8] tracking-[0em] md:tracking-[0.1em] text-lg md:text-xl lg:text-xl xl:text-2xl 2xl:text-3xl whitespace-nowrap">
            &nbsp;Rooted in Quality. Elegance in Simplicity.
          </Paragraph>
        </div>
@@ -151,13 +151,17 @@ const { className } = Astro.props;
     pointer-events: none;
   }
 
-  @keyframes imgGlow {
-    0%,100% { filter: drop-shadow(0 0 0px #f4f4f4); }
-    50%     { filter: drop-shadow(0 0 5px #f4f4f4); }
-  }
-
-  .glow-pulse-img {
-    animation: imgGlow 8s ease-in-out infinite;
-    will-change: filter;
+  /* Image glow via pseudo-element */
+  .glow-img-wrapper { position: relative; }
+  .glow-img-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--logo) center/contain no-repeat;
+    color: #f4f4f4;
+    filter: blur(3px);
+    opacity: 0.25;
+    animation: glowOpacity 8s ease-in-out infinite;
+    pointer-events: none;
   }
 </style>
