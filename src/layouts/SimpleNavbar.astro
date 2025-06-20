@@ -1,17 +1,18 @@
 ---
 import Container from "../components/shared/Container.astro";
+import { Image } from "astro:assets";
+import kuaruLogo from "../assets/logos/kuaru-logo-2.png";
 ---
 
-<header class="w-full py-6 bg-gradient-to-b from-body/50 via-body/20 to-transparent dark:from-slate-900/80 dark:via-slate-900/50 dark:to-transparent">
+<header class="w-full py-6 bg-[#4c5c68]">
   <Container>
     <nav class="w-full flex justify-between gap-6 relative">
       <!-- logo -->
       <div class="min-w-max inline-flex relative">
         <a href="/" class="relative flex items-center gap-3">
-          <div class="flex items-center gap-4">
-            <div class="font-extrabold text-3xl tracking-[-0.06em] leading-none font-['Work Sans',sans-serif] text-heading-1 select-none" style="color:#f4f4f4;">
-              KUARU STUDIO
-            </div>
+          <Image src={kuaruLogo} alt="KUARU STUDIO Logo" class="h-10 w-auto" />
+          <div class="font-extrabold text-3xl tracking-[-0.06em] leading-none font-['Work_Sans',sans-serif] text-[#f4f4f4] select-none">
+            KUARU STUDIO
           </div>
         </a>
       </div>
