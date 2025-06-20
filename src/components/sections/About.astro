@@ -55,10 +55,10 @@ const { className = "" } = Astro.props;
           values.map((item: AboutProps, index: number) => (
             <div data-scrollfade class="opacity-0 translate-y-6 transition duration-700">
               <AboutCard
-                icon={item.icon}
+                icon={item.icon!}
                 title={item.title}
                 lead={item.lead}
-                features={item.features}
+                features={item.features!}
               />
             </div>
           ))

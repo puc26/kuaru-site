@@ -66,6 +66,9 @@ const philosophy = [
 const about = [
   {
     title: "The base of a thoughtful creative ecosystem.",
+    subtitle: "We began with a minimalist fashion brand, guided by a quiet dedication to detail and form.",
+    description: "Looking ahead, Kuaru Studios continues to expand across disciplines — from elegant physical products to intuitive digital services. Our mission is to create enduring experiences that offer clarity, elegance, and meaningful value.",
+    sectionTitle: "Our Story",
     paragraph1: "We began with a minimalist fashion brand, guided by a quiet dedication to detail and form.",
     paragraph2: "Looking ahead, Kuaru Studios continues to expand across disciplines — from elegant physical products to intuitive digital services. Our mission is to create enduring experiences that offer clarity, elegance, and meaningful value.",
     img: aboutImage,
@@ -123,12 +126,16 @@ export { philosophy, values, about, legalIcons, brands };
 
 export interface AboutProps {
   title: string;
-  subtitle: string;
-  description: string;
-  sectionTitle: string;
-  paragraph1: string;
-  paragraph2: string;
-  img: any;
+  subtitle?: string;
+  description?: string;
+  sectionTitle?: string;
+  paragraph1?: string;
+  paragraph2?: string;
+  img?: any;
+
+  lead?: string;
+  features?: string[];
+  icon?: string;
 }
 
 export interface PhilosophyProps {

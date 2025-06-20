@@ -46,6 +46,12 @@ const { title, showNavbar = true } = Astro.props;
     easing: (t: number) => number;
   }
 
+  declare global {
+    interface Window {
+      switchToPage?: (target: HTMLElement, hide: HTMLElement[]) => void;
+    }
+  }
+
   const smoothScroll = (targetId: string, options: SmoothScrollOptions) => {
     const targetElement = document.getElementById(targetId);
     if (!targetElement) return;
@@ -113,7 +119,7 @@ const { title, showNavbar = true } = Astro.props;
     }
 
     // 添加淡出淡入過渡效果的函數
-    function fadeOut(element, callback) {
+    function fadeOut(element: HTMLElement, callback?: () => void) {
       if (!element) return;
       element.style.transition = 'opacity 0.4s ease-out';
       element.style.opacity = '0';
@@ -124,7 +130,7 @@ const { title, showNavbar = true } = Astro.props;
       }, 400);
     }
 
-    function fadeIn(element) {
+    function fadeIn(element: HTMLElement) {
       if (!element) return;
       element.style.display = 'block';
       element.style.opacity = '0';
@@ -136,7 +142,7 @@ const { title, showNavbar = true } = Astro.props;
     }
 
     // 處理頁面切換的函數
-    function switchToPage(targetSection, hideSections) {
+    function switchToPage(targetSection: HTMLElement, hideSections: HTMLElement[]) {
       // 淡出所有需要隱藏的區塊
       hideSections.forEach(section => {
         if (section && section.style.display !== 'none') {
@@ -155,7 +161,7 @@ const { title, showNavbar = true } = Astro.props;
 
     links.forEach(link => {
       link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
+        const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
         console.log('Link clicked:', href);
         console.log('Current URL:', window.location.href);
         
@@ -164,7 +170,9 @@ const { title, showNavbar = true } = Astro.props;
           e.preventDefault();
           e.stopPropagation();
           console.log('Switching to Privacy page');
-          switchToPage(privacySection, [mainContent, termsSection]);
+          if (privacySection && mainContent && termsSection) {
+            switchToPage(privacySection, [mainContent, termsSection]);
+          }
           window.scrollTo({ top: 0, behavior: 'smooth' });
           window.history.pushState({}, '', '#privacy-policy');
           window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
@@ -174,7 +182,9 @@ const { title, showNavbar = true } = Astro.props;
           e.preventDefault();
           e.stopPropagation();
           console.log('Switching to Terms page');
-          switchToPage(termsSection, [mainContent, privacySection]);
+          if (termsSection && mainContent && privacySection) {
+            switchToPage(termsSection, [mainContent, privacySection]);
+          }
           window.scrollTo({ top: 0, behavior: 'smooth' });
           window.history.pushState({}, '', '#terms');
           window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
@@ -197,16 +207,22 @@ const { title, showNavbar = true } = Astro.props;
     window.addEventListener('popstate', () => {
       const hash = window.location.hash;
       if (hash === '#privacy-policy' && privacySection) {
-        switchToPage(privacySection, [mainContent, termsSection]);
+        if (privacySection && mainContent && termsSection) {
+          switchToPage(privacySection, [mainContent, termsSection]);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
       } else if (hash === '#terms' && termsSection) {
-        switchToPage(termsSection, [mainContent, privacySection]);
+        if (termsSection && mainContent && privacySection) {
+          switchToPage(termsSection, [mainContent, privacySection]);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
       } else {
         // 回到主頁面
-        switchToPage(mainContent, [privacySection, termsSection]);
+        if (privacySection && mainContent && termsSection) {
+          switchToPage(privacySection, [mainContent, termsSection]);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: false } }));
       }
