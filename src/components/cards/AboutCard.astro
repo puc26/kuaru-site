@@ -3,34 +3,29 @@ export interface Props {
   title: string;
   features: string[];
   icon: string;
+  lead?: string;
 }
 
-const { title, features, icon } = Astro.props;
+const { title, features, icon, lead } = Astro.props;
 ---
 
-<div class="p-5 sm:p-6 lg:p-8 relative overflow-hidden rounded-3xl shadow-md shadow-slate-700 dark:shadow-slate-900
-  bg-gradient-to-tr from-slate-100/70 to-zinc-200/60 dark:from-slate-800/10 dark:to-zinc-800/10 backdrop-blur-md">
-  <div class="flex items-center gap-4">
-    <div class="rounded-xl p-3 text-heading-1 w-max relative bg-transparent flex-shrink-0">
-      {icon.endsWith('.svg') || icon.endsWith('.png') || icon.endsWith('.jpg') ? (
-        <img src={icon} alt="icon" class="w-6 h-6" />
-      ) : (
-        <slot set:html={icon} />
+<div class="p-6 rounded-xl bg-box-bg border border-box-border transition-shadow duration-300 group hover:shadow-[0_6px_32px_0_rgba(142,115,91,0.18)]">
+  <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+    <div class="text-[#4c5c68] md:text-[#2e2e2e] group-hover:text-[#4c5c68] h-15 flex items-center justify-center flex-shrink-0 transition-colors duration-300" set:html={icon} />
+    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+      <h3 class="text-xl font-semibold text-heading-1 text-[#545454] md:text-heading-1 group-hover:text-[#8e735b] transition-colors duration-300">{title}</h3>
+      {lead && (
+        <div class="text-base font-light italic text-[#8e735b] md:text-[#2e2e2e] group-hover:text-[#8e735b] transition-colors duration-300">{lead}</div>
       )}
     </div>
-    <h2 class="text-lg md:text-xl font-semibold text-heading-2">
-      {title}
-    </h2>
   </div>
-  <div class="mt-6 space-y-4 relative">
-    <div class="mt-4 space-y-2 text-heading-3">
-      {
-        features.map((feature) => {
-          return (
-            <p class="text-justify">{feature}</p>
-          );
-        })
-      }
-    </div>
-  </div>
+  <ul class="space-y-2 text-left">
+    {
+      features.map((feature) => (
+        <li class="text-center md:text-left">
+          {feature}
+        </li>
+      ))
+    }
+  </ul>
 </div> 

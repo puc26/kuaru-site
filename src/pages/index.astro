@@ -4,8 +4,9 @@ import Hero from "../components/sections/Hero.astro";
 import Brands from "../components/sections/Brands.astro";
 import About from "../components/sections/About.astro";
 import Philosophy from "../components/sections/Philosophy.astro";
+import Transition from "../components/sections/Transition.astro";
+import CTA from "../components/sections/CTA.astro";
 
-// 通过环境变量控制是否显示建设中页面
 const isUnderConstruction = import.meta.env.PUBLIC_UNDER_CONSTRUCTION === 'true';
 if (isUnderConstruction) {
   return Astro.redirect('/under-construction');
@@ -15,16 +16,13 @@ if (isUnderConstruction) {
 <Layout title="Welcome to the Agency template">
   <main class="flex flex-col overflow-hidden">
     <Hero className="py-10 md:py-16" />
+    <Transition prev="#4c5c68" next="#FAF9F5" />
     <About className="py-10 md:py-16" />
-    <Brands className="py-10 md:py-16" />
-    <Philosophy className="pt-10 md:pt-16" />
-    <!-- Hero -->
-    <!-- headline, subheading, image, cta button, results -->
-    <!-- About Us -->
-    <!-- company description, mission, vision -->
-    <!-- Our Brands -->
-    <!-- trusted brands, partners -->
-    <!-- Our Philosophy -->
-    <!-- title, painpoint, aggitate pain, introduce solution, video  -->
+    <Transition prev="#FAF9F5" next="#DDD7CB" />
+    <Brands className="pt-10 md:pt-16" />
+    <Transition prev="#DDD7CB" next="#FAF9F5" />
+    <Philosophy className="py-10 md:py-16" />
+    <Transition prev="#FAF9F5" next="#4c5c68" />
+    <CTA />
   </main>
 </Layout>

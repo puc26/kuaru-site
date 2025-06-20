@@ -1,0 +1,37 @@
+---
+---
+<section class="min-h-[150vh]" style={`background:${Astro.props.prev ?? '#ffffff'}`} data-prev={Astro.props.prev ?? '#ffffff'} data-next={Astro.props.next ?? '#ffffff'}></section>
+
+<script is:inline>
+  (()=>{
+    const section = document.currentScript.previousElementSibling;
+    if (!section) return;
+
+    const prev = section.dataset.prev || '#ffffff';
+    const next = section.dataset.next || '#ffffff';
+
+    const hex2rgb = (h) => [0,2,4].map(i => parseInt(h.slice(i,i+2),16));
+    const fromRGB = hex2rgb(prev.replace('#',''));
+    const toRGB   = hex2rgb(next.replace('#',''));
+    const lerp = (a,b,t) => Math.round(a + (b - a) * t);
+
+    let winH = window.innerHeight;
+    const clamp = (v,min=0,max=1)=>Math.min(Math.max(v,min),max);
+
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const diff = rect.height - winH;
+      if (diff <= 0){
+        section.style.backgroundColor = `rgb(${toRGB.join(',')})`;
+        return;
+      }
+      const t = clamp((-rect.top) / diff);
+      const rgb = fromRGB.map((c,i)=>lerp(c,toRGB[i],t)).join(',');
+      section.style.backgroundColor = `rgb(${rgb})`;
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive:true });
+    window.addEventListener('resize', () => { winH = window.innerHeight; update(); });
+  })();
+</script> 

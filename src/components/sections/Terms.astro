@@ -1,4 +1,8 @@
-<section id="terms" class="py-16 bg-[#f4f4f4] min-h-screen" style="display: none;">
+---
+import { legalIcons } from '../../utils/data';
+---
+
+<section id="terms" class="py-16 min-h-screen" style="display: none;">
   <div class="container mx-auto px-4 pt-24 max-w-screen-md">
     <button id="back-to-main-terms" class="mb-8 text-[#a3a3a3] hover:text-[#9C8260] transition">
       ← Back to Home
@@ -40,12 +44,12 @@
     <h2 class="text-2xl font-bold mt-8 mb-4">8. Contact Us</h2>
     <p class="mb-4 text-justify">If you have any questions about these Terms, please contact us at:</p>
     <p class="mb-4 font-bold text-justify">Kuaru Studios LLC</p>
-    <p>📧 Email: <a href="mailto:hello@kuarustudios.com" class="text-black underline hover:underline">hello@kuarustudios.com</a></p>
-    <p>🌐 Website: <a href="https://kuarustudios.com" target="_blank" rel="noopener noreferrer" class="text-black underline hover:underline">https://kuarustudios.com</a></p>
+    <p><span set:html={legalIcons.email} class="text-[#4c4f45]"></span> Email: <a href="mailto:hello@kuarustudios.com" class="text-[#4c4f45] underline hover:underline">hello@kuarustudios.com</a></p>
+    <p><span set:html={legalIcons.website} class="text-[#4c4f45]"></span> Website: <a href="https://kuarustudios.com" target="_blank" rel="noopener noreferrer" class="text-[#4c4f45] underline hover:underline">https://kuarustudios.com</a></p>
   </div>
   
   <!-- Add scroll to top button -->
-  <button id="scroll-to-top-terms" class="fixed bottom-8 right-8 bg-[#a3a3a3] text-white p-3 rounded-full shadow-lg hover:bg-[#9C8260] transition-all duration-300 opacity-0 invisible z-[9999]">
+  <button id="scroll-to-top-terms" class="fixed bottom-24 right-8 bg-[#a3a3a3] text-white p-3 rounded-full shadow-lg hover:bg-[#9C8260] transition-all duration-300 opacity-0 invisible z-[9999]">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
     </svg>
@@ -61,9 +65,19 @@
 
     if (backButton && termsSection && mainContent) {
       backButton.addEventListener('click', () => {
+        // 使用淡出淡入效果切換頁面
+        if (window.switchToPage) {
+          // 先淡出當前頁面，然後淡入主頁面
+          window.switchToPage(mainContent, [termsSection]);
+        } else {
+          // 如果 switchToPage 函數不存在，使用備用方案
         termsSection.style.display = 'none';
         mainContent.style.display = 'block';
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.history.pushState({}, '', '/');
+        // 觸發 header 回復主頁狀態
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: false } }));
       });
     }
 

@@ -11,15 +11,10 @@ const {title, navItems} = Astro.props
 ---
 
 <nav class="space-y-6">
-    {title && (
-        <h2 class="capitalze text-[#f4f4f4] md:text-lg">
-        {title}
-    </h2>
-    )}
-    <ul class="flex space-x-2 font-medium text-sm text-[#f4f4f4]">
+    <ul class="flex space-x-2 text-[#f4f4f4]">
         {navItems.map((navItem, index)=>(
             <li>
-                <a href={navItem.itemLink} class="transition hover:text-[#9C8260]">
+                <a href={navItem.itemLink} class="transition hover:!text-[#9C8260] !text-[#f4f4f4] !text-sm">
                     {navItem.itemText}
                 </a>
                 {index < navItems.length - 1 && <span class="text-[#a3a3a3] mx-2">|</span>}

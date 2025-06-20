@@ -7,6 +7,10 @@ import kuaruLogo from "../assets/logos/kuaru-logo-2.png";
 
 const navItems = [
   {
+    href: "#hero",
+    text: "HOME",
+  },
+  {
     href: "#about",
     text: "ABOUT",
   },
@@ -19,7 +23,7 @@ const navItems = [
     text: "PHILOSOPHY",
   },
   {
-    href: "#footer",
+    href: "#CTA",
     text: "CONTACT",
   },
 ];
@@ -30,7 +34,7 @@ const navItems = [
     <nav class="w-full flex justify-between items-center gap-6 relative">
       <!-- logo -->
       <div class="min-w-max inline-flex relative lg:w-1/4">
-        <a href="#hero-section" class="relative flex items-center gap-3 pointer-events-none" id="logo-link">
+        <a href="#hero" class="relative flex items-center gap-3 pointer-events-none" id="logo-link">
           <div class="flex items-center gap-4">
             <Image
               src={kuaruLogo}
@@ -48,14 +52,21 @@ const navItems = [
       <!-- navigation menu -->
       <div
         data-navbar
-        class="flex h-0 overflow-hidden lg:!h-auto lg:scale-y-100 duration-300 ease-linear flex-col gap-y-6 gap-x-4 lg:flex-row w-full lg:w-2/4 lg:justify-center lg:items-center fixed lg:static top-[48px] lg:top-0 inset-x-0 lg:inset-x-auto bg-transparent backdrop-blur-none lg:bg-transparent border-x border-x-[#f4f4f4] lg:border-x-0 transition-all duration-300"
+        class="flex opacity-0 invisible lg:opacity-100 lg:visible lg:!h-auto duration-300 ease-linear flex-col gap-y-6 gap-x-4 lg:flex-row w-full lg:w-2/4 lg:justify-center lg:items-center fixed lg:static top-[48px] lg:top-0 inset-x-0 lg:inset-x-auto bg-[#4c5c68] lg:bg-transparent transition-all duration-300"
       >
         <ul
-          class="border-t border-[#f4f4f4] lg:border-t-0 px-6 lg:px-0 pt-6 lg:pt-0 flex flex-col lg:flex-row gap-y-4 gap-x-3 text-lg text-[#f4f4f4] w-full lg:w-auto lg:justify-center lg:items-center transition-colors duration-300 font-['Zen_Kaku_Gothic_New',sans-serif]"
+          class="px-6 lg:px-0 pt-6 lg:pt-0 pb-6 lg:pb-0 flex flex-col lg:flex-row gap-y-1 gap-x-3 text-lg text-[#f4f4f4] w-full lg:w-auto lg:justify-center lg:items-center transition-colors duration-300 font-['Zen_Kaku_Gothic_New',sans-serif]"
         >
           {
             navItems.map((item, index) => {
-              return <Navitem {...item} isLast={index === navItems.length - 1} />;
+              return (
+                <li class="w-full lg:w-auto">
+                  <Navitem {...item} isLast={index === navItems.length - 1} />
+                  {index !== navItems.length - 1 && (
+                    <div class="h-px w-full bg-[#f4f4f4]/30 my-1 lg:hidden"></div>
+                  )}
+                </li>
+              );
             })
           }
         </ul>
@@ -87,21 +98,68 @@ const navItems = [
   </Container>
 </header>
 
+<!-- 遮罩層 -->
+<div id="overlay" class="fixed top-[48px] inset-x-0 bottom-0 bg-black/50 opacity-0 invisible transition-opacity duration-300 z-40 lg:hidden"></div>
+
 <script>
-  const toggleNav = document.querySelector('[data-toggle-nav]');
-  const navbar = document.querySelector('[data-navbar]');
-  const header = document.getElementById('header');
-  const logoText = document.getElementById('logo-text');
-  const logoLink = document.getElementById('logo-link');
-  const logoImage = document.getElementById('logo-image');
+  const toggleNav = document.querySelector('[data-toggle-nav]') as HTMLElement | null;
+  const navbar = document.querySelector('[data-navbar]') as HTMLElement | null;
+  const header = document.getElementById('header') as HTMLElement | null;
+  const logoText = document.getElementById('logo-text') as HTMLElement | null;
+  const logoLink = document.getElementById('logo-link') as HTMLElement | null;
+  const logoImage = document.getElementById('logo-image') as HTMLElement | null;
+  const overlay = document.getElementById('overlay') as HTMLElement | null;
   let timeoutId: number | null = null;
   let isPrivacyPage = false;
 
-  // 监听隐私政策页面状态变化
-  window.addEventListener('privacyPageStateChange', (e: CustomEvent) => {
-    isPrivacyPage = e.detail.isPrivacyPage;
+  // 定義區塊映射
+  const sectionMap = {
+    '#hero': 'hero',
+    '#about': 'about-section',
+    '#brands': 'brands-section',
+    '#philosophy': 'philosophy-section',
+    '#footer': 'footer'
+  };
+
+  // 平滑滾動到指定區塊
+  function scrollToSection(sectionId: string) {
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // 更新 URL 並滾動到區塊
+  function navigateToSection(sectionId: string, updateHistory = true) {
+    if (updateHistory) {
+      window.history.pushState({ section: sectionId }, '', sectionId);
+    }
+    scrollToSection(sectionId);
+  }
+
+  // 處理瀏覽器前進/後退
+  function handlePopState(event: PopStateEvent) {
+    const currentHash = window.location.hash || '#hero';
+    navigateToSection(currentHash, false);
+  }
+
+  // 初始化：檢查 URL hash 並滾動到對應區塊
+  function initializeNavigation() {
+    const currentHash = window.location.hash || '#hero';
+    if (currentHash !== '#hero') {
+      // 延遲滾動，確保頁面完全加載
+      setTimeout(() => {
+        scrollToSection(currentHash);
+      }, 100);
+    }
+  }
+
+  // 監聽隱私政策頁面狀態變化
+  window.addEventListener('privacyPageStateChange', (e: Event) => {
+    const customEvent = e as CustomEvent;
+    isPrivacyPage = customEvent.detail.isPrivacyPage;
     if (isPrivacyPage) {
-      // 在隐私政策页面时强制显示 header 和 logo
+      // 在隱私政策頁面時強制顯示 header 和 logo
       if (header) {
         header.classList.add('bg-[#4c5c68]');
         header.classList.remove('bg-transparent');
@@ -116,40 +174,110 @@ const navItems = [
       }
       if (logoLink) {
         logoLink.classList.remove('pointer-events-none');
+        // 修改 logo 鏈接
+        logoLink.setAttribute('href', '/#hero');
       }
     } else {
-      // 返回主页时恢复滚动效果
+      // 返回主頁時恢復滾動效果
       handleScroll();
     }
   });
 
-  if (toggleNav && navbar) {
-    // Toggle menu button click
-    toggleNav.addEventListener('click', () => {
-      const isOpen = toggleNav.getAttribute('data-open-nav') === 'true';
-      toggleNav.setAttribute('data-open-nav', (!isOpen).toString());
-      navbar.style.height = isOpen ? '0' : `${navbar.scrollHeight}px`;
-    });
-
-    // Mouse enter menu
-    navbar.addEventListener('mouseenter', () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
+  // 為 Logo 點擊添加事件處理
+  if (logoLink) {
+    logoLink.addEventListener('click', (e) => {
+      if (isPrivacyPage) {
+        e.preventDefault();
+        // 使用淡出淡入效果返回主頁面
+        const mainContent = document.querySelector('main');
+        const privacySection = document.getElementById('privacy-policy');
+        const termsSection = document.getElementById('terms');
+        
+        if (window.switchToPage && mainContent) {
+          // 確定當前在哪個頁面，隱藏對應的區塊
+          const hideSections = [];
+          if (privacySection && privacySection.style.display !== 'none') {
+            hideSections.push(privacySection);
+          }
+          if (termsSection && termsSection.style.display !== 'none') {
+            hideSections.push(termsSection);
+          }
+          
+          // 先淡出當前頁面，然後淡入主頁面
+          window.switchToPage(mainContent, hideSections);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.history.pushState({}, '', '/');
+          window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: false } }));
+        }
+      } else {
+        // 在主頁面時，使用 History API 導航到 hero 區塊
+        e.preventDefault();
+        navigateToSection('#hero');
       }
-    });
-
-    // Mouse leave menu
-    navbar.addEventListener('mouseleave', () => {
-      timeoutId = window.setTimeout(() => {
-        toggleNav.setAttribute('data-open-nav', 'false');
-        navbar.style.height = '0';
-      }, 100); // Delay before menu closes (in milliseconds)
     });
   }
 
-  // 处理滚动效果
+  // 修改所有導航鏈接
+  const navLinks = document.querySelectorAll('a[href^="#"]');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      // 檢查是否是 Footer 中的 Privacy 或 Terms 鏈接
+      const isFooterLink = (href === '#privacy-policy' || href === '#terms');
+      
+      // 只在 Privacy 或 Terms 頁面時攔截非 Footer 的連結
+      if (href && isPrivacyPage && !isFooterLink) {
+        e.preventDefault();
+        // 先跳轉到主頁
+        window.location.href = '/';
+        // 使用 sessionStorage 存儲目標區塊
+        sessionStorage.setItem('targetSection', href);
+      } else if (href && !isPrivacyPage && !isFooterLink) {
+        // 在主頁面時，使用 History API 導航
+        e.preventDefault();
+        navigateToSection(href);
+      }
+
+      /* ---------- 點擊後自動關閉行動版導覽 ---------- */
+      const isMobile = window.matchMedia('(max-width: 1023px)').matches; // lg 以下
+      const linkInsideNavbar = link.closest('[data-navbar]');
+      if (isMobile && linkInsideNavbar && toggleNav && navbar) {
+        // 關閉漢堡菜單狀態
+        toggleNav.setAttribute('data-open-nav', 'false');
+        // 收起導覽容器
+        navbar.classList.remove('opacity-100', 'visible', '!h-auto');
+        navbar.classList.add('opacity-0', 'invisible', '!h-0');
+        // 隱藏遮罩層
+        if (overlay) {
+          overlay.classList.remove('opacity-100', 'visible');
+          overlay.classList.add('opacity-0', 'invisible');
+        }
+      }
+      // 對於 Footer 的 Privacy 或 Terms 連結，讓它們正常工作
+    });
+  });
+
+  // 檢查是否需要滾動到特定區塊
+  window.addEventListener('load', () => {
+    const targetSection = sessionStorage.getItem('targetSection');
+    if (targetSection) {
+      const element = document.querySelector(targetSection);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+      sessionStorage.removeItem('targetSection');
+    } else {
+      // 初始化導航
+      initializeNavigation();
+    }
+  });
+
+  // 監聽瀏覽器前進/後退事件
+  window.addEventListener('popstate', handlePopState);
+
+  // 處理滾動效果
   function handleScroll() {
+    if (!header) return;
     if (window.scrollY > 50) {
       header.classList.add('bg-[#4c5c68]');
       header.classList.remove('bg-transparent');
@@ -184,6 +312,8 @@ const navItems = [
       if (logoLink) {
         logoLink.classList.add('pointer-events-none');
       }
+      // 確保滾動到頂時關閉光暈
+      removeLogoGlow();
     }
   }
 
@@ -195,4 +325,194 @@ const navItems = [
       }
     });
   }
+
+  // 漢堡菜單切換
+  if (toggleNav) {
+    toggleNav.addEventListener("click", () => {
+      const isOpen = toggleNav.getAttribute("data-open-nav") === "true";
+      toggleNav.setAttribute("data-open-nav", (!isOpen).toString());
+      
+      if (navbar) {
+        if (!isOpen) {
+          navbar.classList.add("opacity-100", "visible", "!h-auto");
+          navbar.classList.remove("opacity-0", "invisible", "!h-0");
+        } else {
+          navbar.classList.remove("opacity-100", "visible", "!h-auto");
+          navbar.classList.add("opacity-0", "invisible", "!h-0");
+        }
+      }
+      
+      if (overlay) {
+        if (!isOpen) {
+          overlay.classList.add("opacity-100", "visible");
+          overlay.classList.remove("opacity-0", "invisible");
+        } else {
+          overlay.classList.remove("opacity-100", "visible");
+          overlay.classList.add("opacity-0", "invisible");
+        }
+      }
+    });
+  }
+
+  // 點擊遮罩層關閉菜單
+  if (overlay) {
+    overlay.addEventListener("click", () => {
+      if (toggleNav) {
+        toggleNav.setAttribute("data-open-nav", "false");
+      }
+      if (navbar) {
+        navbar.classList.remove("opacity-100", "visible", "!h-auto");
+        navbar.classList.add("opacity-0", "invisible", "!h-0");
+      }
+      overlay.classList.remove("opacity-100", "visible");
+      overlay.classList.add("opacity-0", "invisible");
+    });
+  }
+
+  /* ----------------------------
+   * Scroll-Spy：自動高亮導航連結
+   * ---------------------------*/
+  document.addEventListener('DOMContentLoaded', () => {
+    // 只關注出現在導覽列中的錨點連結
+    const menuLinks = document.querySelectorAll('[data-navbar] a[href^="#"]');
+    if (!menuLinks.length) return;
+
+    // 對應要監聽的 section element
+    const observedSections: HTMLElement[] = [];
+    menuLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href) {
+        const sectionEl = document.querySelector(href) as HTMLElement | null;
+        if (sectionEl) {
+          observedSections.push(sectionEl);
+        }
+      }
+    });
+
+    // 若無 section 則略過
+    if (!observedSections.length) return;
+
+    let currentActiveId: string | null = null;
+
+    function applyHighlight(el: Element) {
+      el.classList.add('text-[#8e735b]');
+      el.classList.remove('text-[#f4f4f4]');
+      (el as HTMLElement).style.textShadow = '0 0 3px #f4f4f0';
+      (el as HTMLElement).style.setProperty('-webkit-text-stroke', '1px #8e735b');
+      (el as HTMLElement).style.setProperty('text-stroke', '1px #8e735b');
+    }
+
+    function removeHighlight(el: Element) {
+      el.classList.remove('text-[#8e735b]');
+      (el as HTMLElement).style.textShadow = 'none';
+      (el as HTMLElement).style.removeProperty('-webkit-text-stroke');
+      (el as HTMLElement).style.removeProperty('text-stroke');
+      if (!el.classList.contains('text-[#f4f4f4]')) {
+        el.classList.add('text-[#f4f4f4]');
+      }
+    }
+
+    function setActiveLink(targetId: string | null) {
+      menuLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === targetId) {
+          applyHighlight(link);
+        } else {
+          removeHighlight(link);
+        }
+      });
+      currentActiveId = targetId;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      if (isPrivacyPage) return; // 在 Privacy/Terms 頁面停用
+
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = `#${entry.target.id}`;
+          setActiveLink(id);
+        }
+      });
+    }, {
+      // 使 section 中線進入視窗時即觸發
+      rootMargin: '-50% 0px -50% 0px',
+      threshold: 0.0,
+    });
+
+    observedSections.forEach(sec => io.observe(sec));
+
+    // 當切換到隱私政策頁面時，移除任何 active 樣式
+    window.addEventListener('privacyPageStateChange', (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail.isPrivacyPage) {
+        setActiveLink(null);
+      }
+    });
+
+    /* --------------- Hover 效果 -------------- */
+    menuLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        applyHighlight(link);
+      });
+
+      link.addEventListener('mouseleave', () => {
+        const href = link.getAttribute('href');
+        if (href !== currentActiveId) {
+          removeHighlight(link);
+        }
+      });
+    });
+
+    /* --------------- 頁面底部偵測，專為 Footer 高亮 -------------- */
+    window.addEventListener('scroll', () => {
+      if (isPrivacyPage) return;
+      // 如果已在 Contact 高亮就不用再次計算
+      const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 4);
+      if (nearBottom) {
+        setActiveLink('#footer');
+      }
+    });
+  });
+
+  // Logo 光暈效果
+  function addLogoGlow() {
+    if (logoText) {
+      logoText.style.textShadow = '0 0 3px #f4f4f0';
+      logoText.style.setProperty('-webkit-text-stroke', '0.1px #f4f4f4');
+      logoText.style.setProperty('text-stroke', '0.1px #f4f4f4');
+      logoText.style.transition = 'text-shadow 0.4s ease';
+    }
+    if (logoImage) {
+      logoImage.style.filter = 'drop-shadow(0 0 1px #f4f4f4)';
+      logoImage.style.transition = 'filter 0.4s ease';
+    }
+  }
+
+  function removeLogoGlow() {
+    if (logoText) {
+      logoText.style.textShadow = 'none';
+      logoText.style.removeProperty('-webkit-text-stroke');
+      logoText.style.removeProperty('text-stroke');
+    }
+    if (logoImage) {
+      logoImage.style.filter = 'none';
+    }
+  }
+
+  // --------------- Logo Hover 觸發光暈 ---------------
+  if (logoLink) {
+    logoLink.addEventListener('mouseenter', () => {
+      addLogoGlow();
+    });
+    logoLink.addEventListener('mouseleave', () => {
+      removeLogoGlow();
+    });
+  }
 </script>
+
+<style is:global>
+  /* 導覽列連結光暈淡入淡出 */
+  [data-navbar] a {
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+  }
+</style>

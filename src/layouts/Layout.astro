@@ -26,9 +26,10 @@ const { title, showNavbar = true } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style/custom.css" />
   </head>
-  <body class="overflow-x-hidden overflow-y-auto bg-[#f4f4f4]">
+  <body class="overflow-x-hidden overflow-y-auto bg-[#FAF9F5]">
     {showNavbar && <Navbar />}
     <main class="transition-opacity duration-500">
     <slot />
@@ -72,19 +73,162 @@ const { title, showNavbar = true } = Astro.props;
 
   document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('a[href^="#"]');
+    const mainContent = document.querySelector('main');
+    const privacySection = document.getElementById('privacy-policy');
+    const termsSection = document.getElementById('terms');
+
+    // 檢查是否是頁面刷新
+    const isPageRefresh = !window.performance.navigation || window.performance.navigation.type === 1;
+    
+    // 檢查當前 URL hash
+    const currentHash = window.location.hash;
+    
+    // 如果是頁面刷新，根據 URL hash 顯示對應頁面
+    if (isPageRefresh) {
+      if (currentHash === '#privacy-policy' && privacySection) {
+        // 顯示隱私政策頁面
+        mainContent && (mainContent.style.display = 'none');
+        privacySection.style.display = 'block';
+        termsSection && (termsSection.style.display = 'none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 觸發隱私政策頁面狀態事件
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+        return;
+      } else if (currentHash === '#terms' && termsSection) {
+        // 顯示條款頁面
+        mainContent && (mainContent.style.display = 'none');
+        termsSection.style.display = 'block';
+        privacySection && (privacySection.style.display = 'none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 觸發隱私政策頁面狀態事件
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+        return;
+      } else {
+        // 顯示主頁面
+        mainContent && (mainContent.style.display = 'block');
+        privacySection && (privacySection.style.display = 'none');
+        termsSection && (termsSection.style.display = 'none');
+        return;
+      }
+    }
+
+    // 添加淡出淡入過渡效果的函數
+    function fadeOut(element, callback) {
+      if (!element) return;
+      element.style.transition = 'opacity 0.4s ease-out';
+      element.style.opacity = '0';
+      setTimeout(() => {
+        element.style.display = 'none';
+        element.style.opacity = '1';
+        if (callback) callback();
+      }, 400);
+    }
+
+    function fadeIn(element) {
+      if (!element) return;
+      element.style.display = 'block';
+      element.style.opacity = '0';
+      element.style.transition = 'opacity 0.3s ease-in';
+      // 強制重繪，確保 transition 生效
+      setTimeout(() => {
+        element.style.opacity = '1';
+      }, 10);
+    }
+
+    // 處理頁面切換的函數
+    function switchToPage(targetSection, hideSections) {
+      // 淡出所有需要隱藏的區塊
+      hideSections.forEach(section => {
+        if (section && section.style.display !== 'none') {
+          fadeOut(section);
+        }
+      });
+
+      // 淡入目標區塊 - 延遲時間調整為與淡出時間一致
+      setTimeout(() => {
+        fadeIn(targetSection);
+      }, 200);
+    }
+
+    // 將 switchToPage 設為全局函數，讓其他組件也能使用
+    window.switchToPage = switchToPage;
+
     links.forEach(link => {
       link.addEventListener('click', function(e) {
-        e.preventDefault();
         const href = this.getAttribute('href');
-        if (href) {
+        console.log('Link clicked:', href);
+        console.log('Current URL:', window.location.href);
+        
+        // 只處理 Privacy 和 Terms 連結
+        if (href === '#privacy-policy' && privacySection) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Switching to Privacy page');
+          switchToPage(privacySection, [mainContent, termsSection]);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.history.pushState({}, '', '#privacy-policy');
+          window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+          return;
+        }
+        if (href === '#terms' && termsSection) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Switching to Terms page');
+          switchToPage(termsSection, [mainContent, privacySection]);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.history.pushState({}, '', '#terms');
+          window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+          return;
+        }
+        
+        // 對於其他錨點連結（如 #about、#brands 等），使用平滑滾動
+        if (href && href.startsWith('#') && href !== '#privacy-policy' && href !== '#terms') {
+          e.preventDefault();
           const targetId = href.substring(1);
-          smoothScroll(targetId, {
-            duration: 1000,
-            easing: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-          });
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       });
     });
+
+    // 監聽瀏覽器前進後退按鈕
+    window.addEventListener('popstate', () => {
+      const hash = window.location.hash;
+      if (hash === '#privacy-policy' && privacySection) {
+        switchToPage(privacySection, [mainContent, termsSection]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+      } else if (hash === '#terms' && termsSection) {
+        switchToPage(termsSection, [mainContent, privacySection]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+      } else {
+        // 回到主頁面
+        switchToPage(mainContent, [privacySection, termsSection]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: false } }));
+      }
+    });
+
+    // 檢查 URL hash 並顯示對應頁面（非刷新情況）
+    if (!isPageRefresh) {
+      const hash = window.location.hash;
+      if (hash === '#privacy-policy' && privacySection) {
+        mainContent && (mainContent.style.display = 'none');
+        privacySection.style.display = 'block';
+        termsSection && (termsSection.style.display = 'none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+      } else if (hash === '#terms' && termsSection) {
+        mainContent && (mainContent.style.display = 'none');
+        termsSection.style.display = 'block';
+        privacySection && (privacySection.style.display = 'none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('privacyPageStateChange', { detail: { isPrivacyPage: true } }));
+      }
+    }
   });
 </script>
 
@@ -101,16 +245,46 @@ const { title, showNavbar = true } = Astro.props;
 
   h1, h2, h3 {
     font-family: var(--font-heading);
+    color: rgb(46 46 46); /* text-heading-1 */
+  }
+
+  /* 全局 paragraph 樣式 */
+  p {
+    font-size: 1rem; /* 16px - 手機版 */
+    color: #4c4f45; /* 修改為指定顏色 */
+    line-height: 1.625; /* leading-relaxed */
+  }
+
+  /* 全局 list item 样式 */
+  li {
+    font-size: 1rem; /* 16px - 固定大小 */
+    color: #4c4f45; /* text-gray-600 */
+    line-height: 1.625; /* leading-relaxed */
+  }
+
+  /* 平板和桌面版的字体大小 */
+  @media (min-width: 768px) {
+    p {
+      font-size: 1.125rem; /* 18px - md:text-lg */
+    }
   }
 
   /* Add transition effect styles */
-  #privacy-policy, #terms {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
   main {
     opacity: 1;
     transition: opacity 0.5s ease;
+    }
+
+  /* 頁面區塊過渡效果 */
+  main, #privacy-policy, #terms {
+    transition: opacity 0.6s ease-in-out;
+    opacity: 1;
+  }
+
+  /* 確保頁面區塊在隱藏時不會佔用空間 */
+  main[style*="display: none"], 
+  #privacy-policy[style*="display: none"], 
+  #terms[style*="display: none"] {
+    opacity: 0;
     }
 </style>

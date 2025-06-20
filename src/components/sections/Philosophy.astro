@@ -1,67 +1,72 @@
 ---
-import { Image } from "astro:assets";
-import Container from "../shared/Container.astro";
-import Paragraph from "../shared/Paragraph.astro";
+import { philosophy } from "../../utils/data";
+import type { PhilosophyProps } from "../../utils/data";
+import PhilosophyCard from "../cards/PhilosophyCard.astro";
 import Title from "../shared/Title.astro";
-import GradiantText from "../shared/GradiantText.astro";
-import myImage from "../../assets/images/dev-with-c-1.webp";
-import { philosophy } from "../../utils/data.ts";
 
-type PhilosophyProps = {
-  title: string;
-  painPoint: string;
-  agitatepainPoint: string;
-  solution: string;
-  img: ImageMetadata;
-};
-
-export interface Props {
+interface Props {
   className?: string;
 }
 
-const { className } = Astro.props;
+const { className = "" } = Astro.props;
 ---
 
-<section id="philosophy" class=`flex flex-col ${className}`>
-  {
-    philosophy.map((item: PhilosophyProps, index: number) => {
-      const oddIndex = index % 2 === 0;
-      const flexRow = oddIndex ? "midmd:flex-row-reverse" : "midmd:flex-row";
-      const bgColor = oddIndex
-        ? "bg-[#FAF9F5]"
-        : "bg-[#F3F1EB]";
-      return (
-        <div class={`w-100 py-10 md:py-16 ${bgColor}`}>
-          <Container className={`flex flex-col gap-10 lg:gap-12 ${flexRow}`}>
-            <div class="max-w-md mx-auto w-11/12 flex-1 flex midmd:w-7/12 lg:w-1/2 flex-col">
-              <Title>
-                {item.title}
-              </Title>
-              <Paragraph className="mt-8 font-medium">
-                {item.painPoint}
-              </Paragraph>
-              <Paragraph className="mt-3">
-                {item.agitatepainPoint}
-              </Paragraph>
-              <Paragraph className="mt-3 font-medium">
-                {item.solution}
-              </Paragraph>
-            </div>
-
-            <div class="max-w-md mx-auto midmd:max-w-none lg:mx-0 lg:pr-10 xl:pr-2 flex-1 flex w-11/12 midmd:w-5/12 lg:w-1/2 midmd:h-auto">
-              <div class="w-full h-80 sm:h-96 midmd:h-full relative">
-                <Image
-                  src={item.img}
-                  alt="banner image"
-                  width="1240"
-                  height="1385"
-                  class="w-auto left-1/2 -translate-x-1/2 absolute bottom-0 max-h-full rounded-3xl object-cover"
-                />
+<section id="philosophy" class="scroll-section min-h-[100vh] py-16 md:py-20">
+  <div class="container mx-auto px-4">
+    <div class="text-center mt-4 mb-12 md:mb-16 opacity-0 translate-y-6 transition duration-700" data-scrollfade>
+      <Title className="">OUR PHILOSOPHY</Title>
+      <p class="mt-8 mb-12 text-center text-base font-light leading-relaxed text-gray-600 max-w-4xl mx-auto text-[#545454]">
+        <em>Beyond products, this is the mindset that guides every step.</em>
+      </p>
+      <p class="text-center text-lg md:text-xl leading-relaxed font-light mt-12 mb-12 text-[#8e735b]">
+        Calm. Considered. Crafted.
+      </p>
+      <div class="h-1"></div>
+    </div>
+    <div class="flex flex-col gap-12 md:gap-16">
+      {
+        philosophy.map((item: PhilosophyProps, index: number) => (
+          <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-center opacity-0 translate-y-6 transition duration-700" data-scrollfade>
+            <div class="w-full md:w-1/2 flex flex-col gap-4">
+              <h3 class="text-xl md:text-2xl font-semibold mb-2">{item.title}</h3>
+              <div class="space-y-4">
+                <p class="tracking-wide">{item.kuaruPhilosophy1}</p>
+                <p class="tracking-wide">{item.kuaruPhilosophy2}</p>
               </div>
             </div>
-          </Container>
-        </div>
-      );
-    })
-  }
+            <div class="w-full md:w-1/2">
+              <img
+                src={item.img.src}
+                alt={item.title}
+                class="w-full md:max-w-lg h-auto rounded-xl object-cover"
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fadeEls = document.querySelectorAll('[data-scrollfade]');
+    if (!fadeEls.length) return;
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const el = entry.target as HTMLElement;
+        if (entry.isIntersecting) {
+          el.classList.remove('opacity-0', 'translate-y-6');
+        } else {
+          el.classList.add('opacity-0', 'translate-y-6');
+        }
+      });
+    }, {
+      rootMargin: '-25% 0px -25% 0px',
+      threshold: 0,
+    });
+
+    fadeEls.forEach(el => io.observe(el));
+  });
+</script>

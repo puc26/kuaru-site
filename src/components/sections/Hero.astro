@@ -19,149 +19,145 @@ export interface Props {
 const { className } = Astro.props;
 ---
 
-<section id="hero-section" class=`relative min-h-[200vh] pt-32 lg:pt-36 bg-[#4c5c68] ${className} pb-0`>
+<section id="hero" class={`relative min-h-[100vh] pt-32 lg:pt-36 bg-[#4c5c68] ${className} pb-0`}>
   <Container className={"flex flex-col items-center justify-center min-h-screen"}>
     <div
-      class="relative flex flex-col items-center text-center w-full transition-transform duration-300 -mt-[25vh]"
+      class="relative flex flex-col items-center text-center w-full -mt-[25vh]"
       id="hero-content"
     >
-      <div class="w-full max-w-[70%] sm:max-w-[60%] md:max-w-[50%] lg:max-w-[40%] xl:max-w-[40%] transition-transform duration-300">
+      <div class="w-[60vw] sm:w-[50vw] lg:w-[35vw] transition-transform duration-700">
         <Image
           src={kuaruLogo}
           alt="KUARU STUDIO Logo"
-          class="w-full h-auto"
+          class="w-full h-auto opacity-0 translate-y-6 transition-all ease-out duration-700 glow-pulse-img"
           id="hero-logo"
+          data-scrollfade
         />
         </div>
-      <div class="mt-4 text-[#f4f4f4] font-work-sans font-bold" id="hero-text-logo">
-         KUARU STUDIOS
-      </div>
-      <Paragraph className="mt-[4vh] font-light font-[var(--font-sans)] text-[#f4f4f4] tracking-[0.5em] transition-transform duration-300">
-        &nbsp;Rooted in Quality. Elegance in Simplicity.
-      </Paragraph>
+      <div id="hero-text-wrap" data-scrollfade class="flex flex-col items-center justify-center gap-4 text-center opacity-0 translate-y-6 transition-all ease-out duration-700">
+         <h1 id="hero-text-logo" data-scrollfade data-text="KUARU STUDIOS" class="relative inline-block text-[clamp(1.75rem,8vw,6rem)] font-bold text-[#f4f4f4] font-work-sans whitespace-nowrap opacity-0 translate-y-4 transition-all ease-out duration-700 glow-pulse-text">
+           KUARU STUDIOS
+         </h1>
+         <Paragraph id="hero-slogan" className="mt-[0vh] font-thin !text-[#a3a3a3] tracking-[0em] md:tracking-[0.1em] text-lg md:text-xl lg:text-xl xl:text-2xl 2xl:text-3xl whitespace-nowrap">
+           &nbsp;Rooted in Quality. Elegance in Simplicity.
+         </Paragraph>
+       </div>
     </div>
   </Container>
+  <!-- Explore indicator (fixed) -->
+  <div id="hero-explore" class="fixed left-1/2 -translate-x-1/2 bottom-8 flex flex-col items-center justify-center pointer-events-none opacity-0 transition-opacity duration-500 z-30">
+    <svg class="w-6 h-6 text-[#f3f4f0] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
 </section>
 
 <script>
-  const heroSection = document.getElementById('hero-section');
-  const heroContent = document.getElementById('hero-content');
-  const aboutSection = document.getElementById('about-section');
+  const heroSection = document.getElementById('hero') as HTMLElement | null;
+  const heroContent = document.getElementById('hero-content') as HTMLElement | null;
+  const exploreIndicator = document.getElementById('hero-explore') as HTMLElement | null;
+  const aboutSection = document.getElementById('about-section') as HTMLElement | null;
   
-  function updateBackgroundColor() {
-    const scrollPosition = window.scrollY;
-    const heroHeight = heroSection.offsetHeight;
-    const logoElement = heroSection.querySelector('img') as HTMLImageElement;
-    const logoHeight = logoElement ? logoElement.offsetHeight : 0;
-    const logoTop = logoElement ? logoElement.getBoundingClientRect().top + window.scrollY : 0;
-    const logoMidPoint = logoTop + (logoHeight / 2);
-    
-    // 获取 About Us 区块的位置
-    const aboutSectionTop = aboutSection ? aboutSection.getBoundingClientRect().top + window.scrollY : heroHeight;
-    const windowHeight = window.innerHeight;
-    const aboutSectionTrigger = aboutSectionTop - windowHeight; // 视窗底部到达 About Us 的位置
-    
-    // 计算背景色变化的滚动进度
-    const bgScrollProgress = Math.max(0, Math.min((scrollPosition - logoMidPoint) / (aboutSectionTrigger - logoMidPoint), 1));
-    
-    // 计算动画的滚动进度（从 Logo 中点开始）
-    const animationEndPoint = logoMidPoint + (aboutSectionTrigger - logoMidPoint) * 0.7; // 在到达 About Us 之前结束动画
-    const animationProgress = Math.max(0, Math.min((scrollPosition - logoMidPoint) / (animationEndPoint - logoMidPoint), 1));
-    
-    // 计算颜色渐变
-    const startColor = [76, 92, 104]; // #4c5c68
-    const endColor = [250, 249, 245]; // #FAF9F5
-    
-    const currentColor = startColor.map((start, index) => {
-      const end = endColor[index];
-      return Math.round(start + (end - start) * bgScrollProgress);
-    });
-    
-    // 应用颜色到 hero section
-    heroSection.style.backgroundColor = `rgb(${currentColor.join(',')})`;
-    
-    // 同时更新文字颜色
-    const textElements = heroSection.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
-    const textColor = bgScrollProgress > 0.5 ? '#2C2C2C' : '#f4f4f4';
-    textElements.forEach(element => {
-      if (element instanceof HTMLElement) {
-        element.style.color = textColor;
-      }
-    });
-
-    // 添加上移消逝动画
-    if (heroContent) {
-      const translateY = -animationProgress * 300; // 最大上移 300px
-      const opacity = 1 - animationProgress; // 从 1 渐变到 0
-      heroContent.style.transform = `translateY(${translateY}px)`;
-      heroContent.style.opacity = opacity.toString();
-    }
-  }
-
-  function setHeroTextLogoSize() {
-    const heroLogo = document.getElementById('hero-logo');
-    const heroTextLogo = document.getElementById('hero-text-logo');
-    if (heroLogo && heroTextLogo) {
-      // 确保图片加载完成以获取正确高度
-      if (heroLogo.complete) {
-        const logoHeight = heroLogo.offsetHeight;
-        heroTextLogo.style.fontSize = `${logoHeight / 5}px`;
-      } else {
-        heroLogo.onload = () => {
-          const logoHeight = heroLogo.offsetHeight;
-          heroTextLogo.style.fontSize = `${logoHeight / 5}px`;
-        };
-      }
-    }
-  }
-
-  // 监听滚动事件
-  window.addEventListener('scroll', updateBackgroundColor);
-  // 监听窗口大小调整事件
-  window.addEventListener('resize', () => {
-    updateBackgroundColor();
-    setHeroTextLogoSize();
-  });
-  // 初始化颜色和字体大小
-  updateBackgroundColor();
-  setHeroTextLogoSize();
+  /* no background color change*/
 
   document.addEventListener('DOMContentLoaded', () => {
-    const heroSection = document.querySelector('.hero-section') as HTMLElement;
+    const heroSection = document.querySelector('#hero') as HTMLElement | null;
     if (!heroSection) return;
 
-    const logoElement = heroSection.querySelector('img') as HTMLImageElement;
+    const logoElement = heroSection.querySelector('img') as HTMLImageElement | null;
     if (!logoElement) return;
 
     const heroHeight = heroSection.offsetHeight;
-    const textElements = heroSection.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
 
-    // 更新背景顏色
-    function updateBackgroundColor() {
-      const currentColor = [76, 92, 104];
-      heroSection.style.backgroundColor = `rgb(${currentColor.join(',')})`;
+    /* -------------------------------
+       Scroll-fade / slide-up for hero
+    --------------------------------*/
+    const fadeEls = document.querySelectorAll('#hero [data-scrollfade]');
+    if (fadeEls.length) {
+      const ioHero = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const el = entry.target as HTMLElement;
+          if (entry.isIntersecting) {
+            el.classList.remove('opacity-0', 'translate-y-6');
+          } else {
+            el.classList.add('opacity-0', 'translate-y-6');
+          }
+        });
+      }, {
+        rootMargin: '-25% 0px -25% 0px',
+        threshold: 0,
+      });
+      fadeEls.forEach(el => ioHero.observe(el));
     }
 
-    // 更新文字顏色
-    function updateTextColor(textColor: string) {
-      textElements.forEach((element) => {
-        if (element instanceof HTMLElement) {
-          element.style.color = textColor;
-        }
-      });
-    }
+    /* -------------------------------
+       Explore indicator delay logic
+    --------------------------------*/
+    if (exploreIndicator && heroSection) {
+      let timerId: number | null = null;
 
-    // 處理 logo 加載
-    if (logoElement.complete) {
-      // Logo 已經加載完成
-      updateBackgroundColor();
-      updateTextColor('#ffffff');
-    } else {
-      // Logo 正在加載
-      logoElement.addEventListener('load', () => {
-        updateBackgroundColor();
-        updateTextColor('#ffffff');
-      });
+      const resetTimer = () => {
+        if (timerId) clearTimeout(timerId);
+        timerId = window.setTimeout(() => {
+          exploreIndicator.classList.remove('opacity-0');
+        }, 3000);
+      };
+
+      const onScroll = () => {
+        exploreIndicator.classList.add('opacity-0');
+        resetTimer();
+      };
+
+      const ioExplore = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            resetTimer();
+            window.addEventListener('scroll', onScroll);
+          } else {
+            if (timerId) {
+              clearTimeout(timerId);
+              timerId = null;
+            }
+            exploreIndicator.classList.add('opacity-0');
+            window.removeEventListener('scroll', onScroll);
+          }
+        });
+      }, { threshold: 0 });
+
+      ioExplore.observe(heroSection);
     }
   });
 </script>
+
+<style is:global>
+  /* Glow pulse animations (optimized) */
+  @keyframes glowOpacity {
+    0%,100% { opacity: 0; }
+    50%     { opacity: 1; }
+  }
+
+  .glow-pulse-text {
+    will-change: opacity;
+  }
+
+  .glow-pulse-text::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: #f4f4f4;
+    filter: blur(3px);
+    opacity: .25;
+    animation: glowOpacity 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes imgGlow {
+    0%,100% { filter: drop-shadow(0 0 0px #f4f4f4); }
+    50%     { filter: drop-shadow(0 0 5px #f4f4f4); }
+  }
+
+  .glow-pulse-img {
+    animation: imgGlow 8s ease-in-out infinite;
+    will-change: filter;
+  }
+</style>

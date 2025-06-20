@@ -20,6 +20,7 @@ export default {
       fontFamily: {
         'work-sans': ['Work Sans', 'sans-serif'],
         'noto-sans-jp': ['Noto Sans JP', 'sans-serif'],
+        'zen-kaku': ['Zen Kaku Gothic New', 'sans-serif'],
       },
     },
   },
