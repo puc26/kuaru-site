@@ -14,7 +14,8 @@
 </section>
 
 <script>
-  const actionURL = 'https://script.google.com/a/macros/kuarustudios.com/s/AKfycbwzBo4UFGf1xJfLRgbu1Wuf8F_zq9QkPa6iSm9g6VV26fhMrYmSPGL19TyA7vo-L-4h/exec';
+  // 使用對所有訪客皆可存取的公開 Apps Script 端點（移除 /a/macros/<domain> 前綴）
+  const actionURL = 'https://script.google.com/macros/s/AKfycbxAlGjioOuoRWorJCc0Ne2Wgz0BNHdLsIIf1TAPq14aml7u4ALbLHVNBKmA869mll9v/exec';
 
   const formEl = document.getElementById('newsForm') as HTMLFormElement | null;
   const msgEl = document.getElementById('newsMessage');

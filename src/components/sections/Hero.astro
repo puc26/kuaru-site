@@ -22,7 +22,7 @@ const { className } = Astro.props;
 <section id="hero" class={`relative min-h-[100vh] pt-32 lg:pt-36 bg-[#4c5c68] ${className} pb-0`}>
   <Container className={"flex flex-col items-center justify-center min-h-screen"}>
     <div
-      class="relative flex flex-col items-center text-center w-full -mt-[25vh]"
+      class="relative flex flex-col items-center text-center w-full -mt-[30vh]"
       id="hero-content"
     >
       <div class="w-[60vw] sm:w-[50vw] lg:w-[35vw] transition-transform duration-3000 glow-img-wrapper" style={`--logo:url('${kuaruLogo.src}')`}>
@@ -84,7 +84,7 @@ const { className } = Astro.props;
           }
         });
       }, {
-        rootMargin: '-25% 0px -25% 0px',
+        rootMargin: '-50% 0px -25% 0px',
         threshold: 0,
       });
       fadeEls.forEach(el => ioHero.observe(el));
