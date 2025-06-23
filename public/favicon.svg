@@ -4,9 +4,9 @@
 <svg
    version="1.1"
    id="svg982"
-   width="499.99994"
-   height="499.99997"
-   viewBox="0 0 499.99994 499.99997"
+   width="500"
+   height="500"
+   viewBox="0 0 500 500"
    sodipodi:docname="KUARU.pdf"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -16,6 +16,27 @@
      id="defs986">
     <clipPath
        clipPathUnits="userSpaceOnUse"
+       id="clipPath1024">
+      <path
+         d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
+         id="path1022" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1030">
+      <path
+         d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
+         id="path1028" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1036">
+      <path
+         d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
+         id="path1034" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
        id="clipPath1042">
       <path
          d="M 781.25,0 C 349.77753,0 0,349.77753 0,781.25 c 0,431.4724 349.77753,781.25 781.25,781.25 431.4724,0 781.25,-349.7776 781.25,-781.25 C 1562.5,349.77753 1212.7224,0 781.25,0 Z"
@@ -23,16 +44,11 @@
     </clipPath>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath1320">
-      <g
-         id="g1326">
-        <g
-           id="g1324">
-          <path
-             d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
-             id="path1322" />
-        </g>
-      </g>
+       id="clipPath1054">
+      <path
+         d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
+         clip-rule="evenodd"
+         id="path1052" />
     </clipPath>
   </defs>
   <sodipodi:namedview
@@ -41,7 +57,7 @@
      bordercolor="#000000"
      borderopacity="0.25"
      inkscape:showpageshadow="2"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false" />
@@ -49,38 +65,54 @@
      id="g990"
      inkscape:groupmode="layer"
      inkscape:label="Page 1"
-     transform="matrix(1.3333333,0,0,-1.3333333,0,510.71996)">
+     transform="matrix(1.3333333,0,0,-1.3333333,0,510.71997)">
     <g
-       id="g992"
+       id="g1018"
        transform="matrix(0.23999999,0,0,-0.23999999,0,383.03998)">
       <g
-         id="g1032"
-         clip-path="url(#clipPath1320)">
+         id="g1020"
+         clip-path="url(#clipPath1024)">
         <g
-           id="g1038"
-           clip-path="url(#clipPath1042)">
+           id="g1026"
+           clip-path="url(#clipPath1030)">
           <g
-             id="g1044"
-             transform="scale(1.4467592)">
-            <path
-               d="M 0,0 H 1080 V 1080 H 0 Z"
-               style="fill:#4c5c68;fill-opacity:1;fill-rule:nonzero;stroke:none"
-               id="path1046" />
+             id="g1032"
+             clip-path="url(#clipPath1036)">
+            <g
+               id="g1038"
+               clip-path="url(#clipPath1042)">
+              <g
+                 id="g1044"
+                 transform="scale(1.4467592)">
+                <path
+                   d="M 0,0 H 1080 V 1080 H 0 Z"
+                   style="fill:#4c5c68;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                   id="path1046" />
+              </g>
+            </g>
           </g>
         </g>
       </g>
+    </g>
+    <g
+       id="g1048"
+       transform="matrix(0.23999999,0,0,-0.23999999,0,383.03998)">
       <g
-         id="g1056"
-         transform="matrix(3.125,0,0,3.125,-17.541126,431.25)">
-        <text
-           xml:space="preserve"
-           transform="translate(19,167)"
-           style="font-variant:normal;font-weight:300;font-size:160.37px;font-family:WorkSans;-inkscape-font-specification:WorkSans-Light;writing-mode:lr-tb;fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none"
-           id="text1060"><tspan
-             x="0 86.592911 182.64684 271.64514 363.04883"
-             y="0"
-             sodipodi:role="line"
-             id="tspan1058">KUARU</tspan></text>
+         id="g1050"
+         clip-path="url(#clipPath1054)">
+        <g
+           id="g1056"
+           transform="matrix(3.125,0,0,3.125,-17.541126,431.25)">
+          <text
+             xml:space="preserve"
+             transform="translate(19,167)"
+             style="font-variant:normal;font-weight:300;font-size:160.37px;font-family:WorkSans;-inkscape-font-specification:WorkSans-Light;writing-mode:lr-tb;fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="text1060"><tspan
+               x="0 86.592911 182.64684 271.64514 363.04883"
+               y="0"
+               sodipodi:role="line"
+               id="tspan1058">KUARU</tspan></text>
+        </g>
       </g>
     </g>
   </g>
