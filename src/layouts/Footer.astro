@@ -3,6 +3,8 @@ import GroupFooterNav from "../components/blocks/GroupFooterNav.astro";
 import Container from "../components/shared/Container.astro";
 import FooterNav from "../components/shared/FooterNav.astro";
 import Paragraph from "../components/shared/Paragraph.astro";
+import { Image } from "astro:assets";
+import InstagramIcon from "../assets/logos/instagram.png";
 ---
 
 <footer id="footer" class="relative overflow-hidden flex flex-col justify-center bg-[#4c5c68] text-[#f4f4f4] pb-3">
@@ -48,11 +50,8 @@ import Paragraph from "../components/shared/Paragraph.astro";
             <h3 class="hidden md:block text-base font-semibold text-[#f4f4f4]">Contact</h3>
             <a href="mailto:hello@kuarustudios.com" class="text-sm text-[#f4f4f4] hover:text-[#9C8260] transition font-light">hello@kuarustudios.com</a>
             <!-- Instagram icon -->
-            <a href="https://www.instagram.com" target="_blank" rel="noopener" class="mt-1 inline-flex items-center justify-center hover:text-[#9C8260] transition" aria-label="Instagram">
-              <!-- Simple Instagram SVG -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 fill-current">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.96.24 2.418.414a4.917 4.917 0 0 1 1.675 1.091 4.918 4.918 0 0 1 1.092 1.675c.174.458.36 1.248.413 2.418.059 1.266.071 1.646.071 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.96-.414 2.418a4.922 4.922 0 0 1-1.091 1.675 4.919 4.919 0 0 1-1.675 1.092c-.458.174-1.248.36-2.418.413-1.266.059-1.646.071-4.85.071s-3.584-.012-4.85-.07c-1.17-.054-1.96-.24-2.418-.414a4.913 4.913 0 0 1-1.675-1.091 4.911 4.911 0 0 1-1.092-1.675c-.174-.458-.36-1.248-.413-2.418C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.96.414-2.418a4.916 4.916 0 0 1 1.091-1.675 4.916 4.916 0 0 1 1.675-1.092c.458-.174 1.248-.36 2.418-.413C8.416 2.175 8.796 2.163 12 2.163m0-2.163C8.735 0 8.332.015 7.052.073 5.775.13 4.73.314 3.802.65 2.85.995 2.045 1.572 1.282 2.335.52 3.097-.057 3.903-.403 4.855c-.336.928-.52 1.973-.577 3.25C-.015 9.333 0 9.736 0 12s-.015 2.667.073 3.948c.057 1.277.241 2.322.577 3.25.346.952.923 1.757 1.685 2.52.763.762 1.568 1.339 2.52 1.685.928.336 1.973.52 3.25.577C8.333 23.985 8.736 24 12 24s3.667-.015 4.948-.073c1.277-.057 2.322-.241 3.25-.577.952-.346 1.757-.923 2.52-1.685.762-.763 1.339-1.568 1.685-2.52.336-.928.52-1.973.577-3.25.058-1.281.073-1.684.073-4.948s-.015-3.667-.073-4.948c-.057-1.277-.241-2.322-.577-3.25-.346-.952-.923-1.757-1.685-2.52-.763-.762-1.568-1.339-2.519-1.685C18.322.314 17.277.13 16 .073 14.719.015 14.316 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/>
-              </svg>
+            <a href="https://www.instagram.com/kuarustudios" target="_blank" rel="noopener" class="mt-1 flex self-start hover:opacity-80 transition" aria-label="Instagram">
+              <Image src={InstagramIcon} alt="Instagram" class="w-5 h-5 invert brightness-95" />
             </a>
           </div>
         </div>
