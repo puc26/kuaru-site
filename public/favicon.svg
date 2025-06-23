@@ -3,7 +3,7 @@
 
 <svg
    version="1.1"
-   id="svg982"
+   id="svg1896"
    width="500"
    height="500"
    viewBox="0 0 500 500"
@@ -13,46 +13,46 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs986">
+     id="defs1900">
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath1024">
+       id="clipPath1938">
       <path
          d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
-         id="path1022" />
+         id="path1936" />
     </clipPath>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath1030">
+       id="clipPath1944">
       <path
          d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
-         id="path1028" />
+         id="path1942" />
     </clipPath>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath1036">
+       id="clipPath1950">
       <path
          d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
-         id="path1034" />
+         id="path1948" />
     </clipPath>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath1042">
+       id="clipPath1956">
       <path
          d="M 781.25,0 C 349.77753,0 0,349.77753 0,781.25 c 0,431.4724 349.77753,781.25 781.25,781.25 431.4724,0 781.25,-349.7776 781.25,-781.25 C 1562.5,349.77753 1212.7224,0 781.25,0 Z"
-         id="path1040" />
+         id="path1954" />
     </clipPath>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath1054">
+       id="clipPath1968">
       <path
          d="M 0,0 H 1562.5 V 1562.5 H 0 Z"
          clip-rule="evenodd"
-         id="path1052" />
+         id="path1966" />
     </clipPath>
   </defs>
   <sodipodi:namedview
-     id="namedview984"
+     id="namedview1898"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -62,32 +62,32 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false" />
   <g
-     id="g990"
+     id="g1904"
      inkscape:groupmode="layer"
      inkscape:label="Page 1"
      transform="matrix(1.3333333,0,0,-1.3333333,0,510.71997)">
     <g
-       id="g1018"
+       id="g1932"
        transform="matrix(0.23999999,0,0,-0.23999999,0,383.03998)">
       <g
-         id="g1020"
-         clip-path="url(#clipPath1024)">
+         id="g1934"
+         clip-path="url(#clipPath1938)">
         <g
-           id="g1026"
-           clip-path="url(#clipPath1030)">
+           id="g1940"
+           clip-path="url(#clipPath1944)">
           <g
-             id="g1032"
-             clip-path="url(#clipPath1036)">
+             id="g1946"
+             clip-path="url(#clipPath1950)">
             <g
-               id="g1038"
-               clip-path="url(#clipPath1042)">
+               id="g1952"
+               clip-path="url(#clipPath1956)">
               <g
-                 id="g1044"
+                 id="g1958"
                  transform="scale(1.4467592)">
                 <path
                    d="M 0,0 H 1080 V 1080 H 0 Z"
                    style="fill:#4c5c68;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                   id="path1046" />
+                   id="path1960" />
               </g>
             </g>
           </g>
@@ -95,23 +95,23 @@
       </g>
     </g>
     <g
-       id="g1048"
+       id="g1962"
        transform="matrix(0.23999999,0,0,-0.23999999,0,383.03998)">
       <g
-         id="g1050"
-         clip-path="url(#clipPath1054)">
+         id="g1964"
+         clip-path="url(#clipPath1968)">
         <g
-           id="g1056"
-           transform="matrix(3.125,0,0,3.125,-17.541126,431.25)">
+           id="g1970"
+           transform="matrix(3.125,0,0,3.125,2.2975938,460.9375)">
           <text
              xml:space="preserve"
-             transform="translate(19,167)"
-             style="font-variant:normal;font-weight:300;font-size:160.37px;font-family:WorkSans;-inkscape-font-specification:WorkSans-Light;writing-mode:lr-tb;fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none"
-             id="text1060"><tspan
-               x="0 86.592911 182.64684 271.64514 363.04883"
+             transform="translate(8.78125,153)"
+             style="font-variant:normal;font-weight:300;font-size:147.04px;font-family:WorkSans;-inkscape-font-specification:WorkSans-Light;writing-mode:lr-tb;fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="text1974"><tspan
+               x="0 91.159561 190.99382 284.35883 379.92932"
                y="0"
                sodipodi:role="line"
-               id="tspan1058">KUARU</tspan></text>
+               id="tspan1972">KUARU</tspan></text>
         </g>
       </g>
     </g>
