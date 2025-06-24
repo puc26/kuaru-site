@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg198"
+   width="500"
+   height="500"
+   viewBox="0 0 500 500"
+   sodipodi:docname="KUARU.pdf"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs202">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath220">
+      <path
+         d="M 0,0 H 375.00003 V 375.00751 H 0 Z"
+         clip-rule="evenodd"
+         id="path218" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview200"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false" />
+  <g
+     id="g206"
+     inkscape:groupmode="layer"
+     inkscape:label="Page 1"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,500)">
+    <g
+       id="g214"
+       transform="matrix(1,0,0,-1,0,375)">
+      <g
+         id="g216"
+         clip-path="url(#clipPath220)">
+        <g
+           id="g222"
+           transform="matrix(1.75784,0,0,1.75784,0,0.00375)">
+          <path
+             d="m 213.33,42.666 v 127.998 c 0,11.31572 -4.49516,22.16799 -12.49658,30.16942 C 192.83199,208.83484 181.97972,213.33 170.664,213.33 H 42.666 c -11.315727,0 -22.167991,-4.49516 -30.169418,-12.49658 C 4.4951549,192.83199 0,181.97972 0,170.664 V 42.666 C 0,31.350273 4.4951549,20.498009 12.496582,12.496582 20.498009,4.4951549 31.350273,0 42.666,0 h 127.998 c 11.31572,0 22.16799,4.4951549 30.16942,12.496582 C 208.83484,20.498009 213.33,31.350273 213.33,42.666 Z"
+             style="fill:#4c5c68;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path224" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="g226"
+       transform="matrix(0.75,0,0,-0.75,0,259.46805)">
+      <text
+         xml:space="preserve"
+         transform="translate(1.9268413,150.9624)"
+         style="font-variant:normal;font-weight:normal;font-size:160.37px;font-family:WorkSans;-inkscape-font-specification:WorkSans-Regular;writing-mode:lr-tb;fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text230"><tspan
+           x="0 93.969437 192.58905 287.19992 382.61261"
+           y="0"
+           sodipodi:role="line"
+           id="tspan228">KUARU</tspan></text>
+    </g>
+  </g>
+</svg>
