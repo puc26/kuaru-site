@@ -28,6 +28,16 @@ const { title, showNavbar = true } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style/custom.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LCPY9V7YCZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LCPY9V7YCZ');
+    </script>
   </head>
   <body class="overflow-x-hidden overflow-y-auto bg-[#4c5c68]">
     {showNavbar && <Navbar />}
