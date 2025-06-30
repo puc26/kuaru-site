@@ -144,7 +144,7 @@ const { title, showNavbar = true } = Astro.props;
       if (!element) return;
       element.style.display = 'block';
       element.style.opacity = '0';
-      element.style.transition = 'opacity 0.3s ease-in';
+      element.style.transition = 'opacity 0.2s ease-in';
       // 強制重繪，確保 transition 生效
       setTimeout(() => {
         element.style.opacity = '1';
