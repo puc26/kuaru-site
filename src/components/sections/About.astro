@@ -88,5 +88,33 @@ const { className = "" } = Astro.props;
     });
 
     fadeEls.forEach(el => io.observe(el));
+
+    // Equalize AboutCard inner section heights
+    function equalizeCardHeights() {
+      const groups = [
+        document.querySelectorAll('.card-title'),
+        document.querySelectorAll('.card-lead'),
+        document.querySelectorAll('.card-features'),
+      ];
+
+      groups.forEach(nodes => {
+        let max = 0;
+        nodes.forEach(node => {
+          const el = node as HTMLElement;
+          el.style.height = 'auto'; // reset
+          max = Math.max(max, el.offsetHeight);
+        });
+        nodes.forEach(node => {
+          (node as HTMLElement).style.height = `${max}px`;
+        });
+      });
+    }
+
+    // Run on load and resize
+    window.addEventListener('load', equalizeCardHeights);
+    window.addEventListener('resize', () => {
+      // Debounce via requestAnimationFrame
+      requestAnimationFrame(equalizeCardHeights);
+    });
   });
 </script>
