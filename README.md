@@ -4,8 +4,7 @@
 
 ## ✨ 線上環境
 
-Production URL：<https://kuaru-studios.com>  
-Staging URL：<https://staging.kuaru-studios.com>
+Production URL：<https://kuarustudios.com>  
 
 ![Screenshot of home page](public/favicon.svg)
 
