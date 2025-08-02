@@ -1,6 +1,7 @@
 import kuaruPhilosophy from "../assets/images/kuaru-philosophy.png";
 import aboutImage from "../assets/images/about-us.png";
-import wabianLogo from "../assets/logos/wabian-logo.png";
+import thewabianLogo from "../assets/logos/thewabian-logo.png";
+import ksenLogo from "../assets/logos/ksen-logo.png";
 
 const values = [
   {
@@ -100,18 +101,18 @@ export interface BrandProps {
 
 const brands: BrandProps[] = [
   {
-    logo: wabianLogo,
-    title: "Wabian",
+    logo: thewabianLogo,
+    title: "the wabian",
     subtitle: "Crush the Noise",
     description: "Minimalist shoes and accessories in grounded tones — built to silence clutter with lasting craft.",
     link: "https://thewabian.com",
   },
   {
-    logo: "",
-    title: "",
-    subtitle: "",
-    description: "",
-    link: "",
+    logo: ksenLogo,
+    title: "K. Sen",
+    subtitle: "Notion Templates & Digital Calm",
+    description: "Minimal Notion templates built for clarity and focus. K. Sen helps you bring order to your digital life without the noise.",
+    link: "https://ksenstudio.gumroad.com/",
   },
   {
     logo: "",
