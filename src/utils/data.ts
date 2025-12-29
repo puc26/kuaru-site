@@ -108,11 +108,11 @@ const brands: BrandProps[] = [
     link: "https://thewabian.com",
   },
   {
-    logo: ksenLogo,
-    title: "K. Sen",
-    subtitle: "Notion Templates & Digital Calm",
-    description: "Minimal Notion templates built for clarity and focus. K. Sen helps you bring order to your digital life without the noise.",
-    link: "https://ksenstudio.gumroad.com/",
+    // logo: ksenLogo,
+    // title: "K. Sen",
+    // subtitle: "Notion Templates & Digital Calm",
+    // description: "Minimal Notion templates built for clarity and focus. K. Sen helps you bring order to your digital life without the noise.",
+    // link: "https://ksenstudio.gumroad.com/",
   },
   {
     logo: "",
