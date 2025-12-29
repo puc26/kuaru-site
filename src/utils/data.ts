@@ -101,11 +101,11 @@ export interface BrandProps {
 
 const brands: BrandProps[] = [
   {
-    logo: thewabianLogo,
-    title: "the wabian",
-    subtitle: "Crush the Noise",
-    description: "Minimalist shoes and accessories in grounded tones — built to silence clutter with lasting craft.",
-    link: "https://thewabian.com",
+    // logo: thewabianLogo,
+    // title: "the wabian",
+    // subtitle: "Crush the Noise",
+    // description: "Minimalist shoes and accessories in grounded tones — built to silence clutter with lasting craft.",
+    // link: "https://thewabian.com",
   },
   {
     // logo: ksenLogo,
